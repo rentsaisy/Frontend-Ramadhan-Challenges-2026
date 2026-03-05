@@ -164,3 +164,159 @@ function shareApp() {
     alert('Bagikan URL ini: ' + window.location.href);
   }
 }
+// ============ KALKULATOR ZAKAT FUNCTIONALITY ============
+function changeZakatType() {
+  const zakatType = document.getElementById('zakatType').value;
+  const formPenghasilan = document.getElementById('formPenghasilan');
+  const formEmas = document.getElementById('formEmas');
+  const goldPriceContainer = document.getElementById('goldPriceContainer');
+  
+  if (zakatType === 'penghasilan') {
+    formPenghasilan.classList.remove('hidden');
+    formEmas.classList.add('hidden');
+    // Sembunyikan input harga emas untuk zakat penghasilan
+    goldPriceContainer.classList.add('hidden');
+  } else {
+    formPenghasilan.classList.add('hidden');
+    formEmas.classList.remove('hidden');
+    // Tampilkan input harga emas untuk zakat emas
+    goldPriceContainer.classList.remove('hidden');
+  }
+}
+
+function formatNumber(num) {
+  return new Intl.NumberFormat('id-ID').format(Math.round(num));
+}
+
+function calculateZakat() {
+  const zakatType = document.getElementById('zakatType').value;
+  
+  let zakatAmount = 0;
+  let isWajibZakat = false;
+  
+  if (zakatType === 'penghasilan') {
+    // ===== ZAKAT PENGHASILAN (BERDASARKAN PENGHASILAN BULANAN) =====
+    const goldPrice = parseFloat(document.getElementById('goldPrice').value) || 900000;
+    
+    // Ambil input penghasilan bulanan
+    const salary = parseFloat(document.getElementById('salary').value) || 0;
+    const otherIncome = parseFloat(document.getElementById('otherIncome').value) || 0;
+    
+    // Total penghasilan bulanan bersih
+    const monthlyAmount = salary + otherIncome;
+    
+    // Hitung nisab bulanan = (Harga emas per gram × 85 gram) ÷ 12 bulan
+    const nisabPerYear = goldPrice * 85;
+    const nisabPerMonth = nisabPerYear / 12;
+    
+    // Bandingkan penghasilan bulanan dengan nisab bulanan
+    if (monthlyAmount >= nisabPerMonth) {
+      isWajibZakat = true;
+      // Zakat per bulan = 2.5% × Penghasilan bulanan bersih
+      zakatAmount = monthlyAmount * 0.025;
+    } else {
+      isWajibZakat = false;
+      zakatAmount = 0;
+    }
+    
+    // Update result display untuk zakat penghasilan
+    document.getElementById('monthlyIncomeBox').classList.remove('hidden');
+    document.getElementById('monthlyNisabBox').classList.remove('hidden');
+    document.getElementById('totalEmasBox').classList.add('hidden');
+    
+    document.getElementById('monthlyAmount').textContent = formatNumber(monthlyAmount);
+    document.getElementById('monthlyNisabAmount').textContent = formatNumber(nisabPerMonth);
+    document.getElementById('nisabAmount').textContent = formatNumber(nisabPerYear);
+    
+    // Update label untuk zakat amount (per bulan)
+    document.getElementById('zakatLabel').textContent = 'Jumlah Zakat Per Bulan (2,5%)';
+    
+    // Sembunyikan input harga emas untuk zakat penghasilan (opsional)
+    // document.getElementById('goldPriceContainer').classList.add('hidden');
+    
+  } else {
+    // ===== ZAKAT EMAS =====
+    const goldPrice = parseFloat(document.getElementById('goldPrice').value) || 900000;
+    const goldAmount = parseFloat(document.getElementById('goldAmount').value) || 0;
+    
+    // Update gold price display
+    document.getElementById('goldPriceDisplay').textContent = formatNumber(goldPrice);
+    
+    // Calculate nisab (85 gram emas)
+    const nisabGram = 85;
+    const nisabAmount = goldPrice * nisabGram;
+    
+    // Hitung nilai total emas
+    const totalEmasAmount = goldAmount * goldPrice;
+    
+    // Bandingkan jumlah emas dengan nisab (85 gram)
+    if (goldAmount >= nisabGram) {
+      isWajibZakat = true;
+      // Zakat = 2.5% dari jumlah emas (dalam gram), dikonversi ke rupiah
+      zakatAmount = (goldAmount * 0.025) * goldPrice;
+    } else {
+      isWajibZakat = false;
+      zakatAmount = 0;
+    }
+    
+    // Update result display untuk zakat emas
+    document.getElementById('monthlyIncomeBox').classList.add('hidden');
+    document.getElementById('monthlyNisabBox').classList.add('hidden');
+    document.getElementById('totalEmasBox').classList.remove('hidden');
+    
+    document.getElementById('totalAmount').textContent = formatNumber(totalEmasAmount);
+    document.getElementById('nisabAmount').textContent = formatNumber(nisabAmount);
+    
+    // Update label untuk zakat amount (total)
+    document.getElementById('zakatLabel').textContent = 'Jumlah Zakat yang Harus Dibayarkan (2,5%)';
+    
+    // Tampilkan input harga emas untuk zakat emas
+    // document.getElementById('goldPriceContainer').classList.remove('hidden');
+  }
+  
+  // Update status dan zakat (sama untuk keduanya)
+  document.getElementById('zakatAmount').textContent = formatNumber(zakatAmount);
+  
+  // Update status
+  const statusEl = document.getElementById('zakatStatus');
+  if (isWajibZakat) {
+    statusEl.textContent = '✓ Wajib Zakat';
+    statusEl.className = 'inline-block px-4 py-2 rounded-full bg-green-100 text-green-700 font-semibold';
+  } else {
+    statusEl.textContent = '✗ Tidak Wajib Zakat';
+    statusEl.className = 'inline-block px-4 py-2 rounded-full bg-red-100 text-red-700 font-semibold';
+  }
+  
+  // Trigger animation
+  const resultContainer = document.getElementById('resultContainer');
+  if (resultContainer) {
+    resultContainer.style.animation = 'fadeIn 0.3s ease-in';
+  }
+}
+
+// Add event listeners when page loads
+function initZakatPage() {
+  const goldPriceInput = document.getElementById('goldPrice');
+  const goldPriceContainer = document.getElementById('goldPriceContainer');
+  
+  // Sembunyikan input harga emas karena default adalah zakat penghasilan
+  if (goldPriceContainer) {
+    goldPriceContainer.classList.add('hidden');
+  }
+  
+  if (goldPriceInput) {
+    goldPriceInput.addEventListener('input', () => {
+      const goldPrice = parseFloat(goldPriceInput.value) || 900000;
+      document.getElementById('goldPriceDisplay').textContent = formatNumber(goldPrice);
+    });
+  }
+}
+
+// Initialize zakat page when navigating to it
+const originalNavigatePage = navigatePage;
+navigatePage = function(page) {
+  originalNavigatePage(page);
+  if (page === 'zakat') {
+    setTimeout(() => initZakatPage(), 100);
+  }
+};
