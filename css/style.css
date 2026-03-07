@@ -49,6 +49,98 @@ body {
   animation: slideIn 0.3s ease-out;
 }
 
+/* ====== TO-DO IBADAH STYLES ====== */
+
+.checkbox-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.checkbox-item input[type="checkbox"]:checked ~ span:first-of-type {
+  color: #0891b2;
+  font-weight: 700;
+}
+
+.checkbox-item:has(input[type="checkbox"]:checked) {
+  background-color: #ecf0ff !important;
+  border-color: #0891b2 !important;
+}
+
+/* Animasi Progress Bar */
+@keyframes progressPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Animasi untuk kalender */
+.ramadan-day {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animasi bounce untuk toast */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-bounce {
+  animation: bounce 0.5s ease-in-out;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .gradient-header {
+    padding: 1.5rem 1rem !important;
+  }
+
+  nav {
+    flex-direction: column;
+    gap: 0.5rem !important;
+  }
+
+  nav button {
+    width: 100%;
+    padding: 0.75rem 1.5rem !important;
+  }
+
+  .ramadan-calendar {
+    grid-template-columns: repeat(5, 1fr) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  h1 {
+    font-size: 1.5rem !important;
+  }
+
+  .ramadan-calendar {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+
+  .grid-cols-3 {
+    grid-template-columns: 1fr !important;
+  }
+}
+
 @keyframes slideIn {
   from {
     transform: translateX(100%);

@@ -35,6 +35,9 @@
         <button onclick="navigatePage('zakat')" class="nav-btn px-6 py-2 rounded-full font-semibold transition-all bg-emerald-600 text-white border-2 border-white hover:bg-emerald-500" id="nav-zakat">
           <i class="fas fa-coins mr-2"></i>Kalkulator Zakat
         </button>
+        <button onclick="navigatePage('todo')" class="nav-btn px-6 py-2 rounded-full font-semibold transition-all bg-emerald-600 text-white border-2 border-white hover:bg-emerald-500" id="nav-todo">
+          <i class="fas fa-list-check mr-2"></i>To-Do Ibadah
+        </button>
       </nav>
     </div>
   </header>
@@ -91,9 +94,10 @@
         const doaContent = await fetch('pages/doa.html').then(res => res.text());
         const zikirContent = await fetch('pages/zikir.html').then(res => res.text());
         const zakatContent = await fetch('pages/zakat.html').then(res => res.text());
+        const todoContent = await fetch('pages/todo.html').then(res => res.text());
         
         const container = document.getElementById('page-container');
-        container.innerHTML = doaContent + zikirContent + zakatContent;
+        container.innerHTML = doaContent + zikirContent + zakatContent + todoContent;
         
         // Initialize with doa page
         navigatePage('doa');
