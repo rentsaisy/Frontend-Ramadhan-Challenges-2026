@@ -35,6 +35,9 @@
         <button onclick="navigatePage('zakat')" class="nav-btn px-6 py-2 rounded-full font-semibold transition-all bg-emerald-600 text-white border-2 border-white hover:bg-emerald-500" id="nav-zakat">
           <i class="fas fa-coins mr-2"></i>Kalkulator Zakat
         </button>
+        <button onclick="navigatePage('imsakiyah')" class="nav-btn px-6 py-2 rounded-full font-semibold transition-all bg-emerald-600 text-white border-2 border-white hover:bg-emerald-500" id="nav-imsakiyah">
+          <i class="fas fa-clock mr-2"></i>Jadwal Imsakiyah
+        </button>
         <button onclick="navigatePage('todo')" class="nav-btn px-6 py-2 rounded-full font-semibold transition-all bg-emerald-600 text-white border-2 border-white hover:bg-emerald-500" id="nav-todo">
           <i class="fas fa-list-check mr-2"></i>To-Do Ibadah
         </button>
@@ -61,6 +64,7 @@
           <h3 class="font-bold text-lg mb-2">Fitur</h3>
           <ul class="text-emerald-200 text-sm space-y-1">
             <li>✓ Doa Sahur & Buka Puasa</li>
+            <li>✓ Jadwal Imsakiyah & Sholat</li>
             <li>✓ Hitung Zikir Interaktif</li>
             <li>✓ Kalkulator Zakat Otomatis</li>
             <li>✓ Desain Responsif</li>
@@ -91,13 +95,23 @@
     // Load pages on page load
     async function loadPages() {
       try {
-        const doaContent = await fetch('pages/doa.html').then(res => res.text());
-        const zikirContent = await fetch('pages/zikir.html').then(res => res.text());
-        const zakatContent = await fetch('pages/zakat.html').then(res => res.text());
-        const todoContent = await fetch('pages/todo.html').then(res => res.text());
+        // Fetch all pages in parallel
+        const [doaContent, zikirContent, zakatContent, imsakiyahContent, todoContent] = await Promise.all([
+          fetch('pages/doa.html').then(res => res.text()),
+          fetch('pages/zikir.html').then(res => res.text()),
+          fetch('pages/zakat.html').then(res => res.text()),
+          fetch('pages/imsakiyah.html').then(res => res.text()),
+          fetch('pages/todo.html').then(res => res.text())
+        ]);
         
         const container = document.getElementById('page-container');
-        container.innerHTML = doaContent + zikirContent + zakatContent + todoContent;
+        container.innerHTML = doaContent + zikirContent + zakatContent + imsakiyahContent + todoContent;
+        
+        // Pre-load cities for Imsakiyah page (fire and forget)
+        console.log('[App] Pre-loading Imsakiyah cities...');
+        ImsakiyahController.loadCitiesIfNeeded().catch(err => {
+          console.warn('[App] Pre-load cities failed (will retry on page access):', err.message);
+        });
         
         // Initialize with doa page
         navigatePage('doa');

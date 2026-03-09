@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Debug Imsakiyah API</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    pre { background: #f3f4f6; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; }
+  </style>
+</head>
+<body class="bg-gray-50 p-8">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-4">🔧 Debug Imsakiyah API</h1>
+    
+    <div class="space-y-6">
+      <!-- Test 1: Cities API -->
+      <div class="bg-white p-6 rounded-lg shadow">
+        <h2 class="text-xl font-bold mb-4">Test 1: Load Cities</h2>
+        <button onclick="testCitiesAPI()" class="bg-blue-500 text-white px-4 py-2 rounded">
+          Test Cities API
+        </button>
+        <div id="cities-output" class="mt-4"></div>
+      </div>
+
+      <!-- Test 2: Schedule API -->
+      <div class="bg-white p-6 rounded-lg shadow">
+        <h2 class="text-xl font-bold mb-4">Test 2: Load Schedule (Jakarta = 1121)</h2>
+        <button onclick="testScheduleAPI()" class="bg-blue-500 text-white px-4 py-2 rounded">
+          Test Schedule API
+        </button>
+        <div id="schedule-output" class="mt-4"></div>
+      </div>
+
+      <!-- Logs -->
+      <div class="bg-white p-6 rounded-lg shadow">
+        <h2 class="text-xl font-bold mb-4">Logs</h2>
+        <pre id="logs" class="text-sm"></pre>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const logs = [];
+
+    function log(msg) {
+      console.log(msg);
+      logs.push(`[${new Date().toLocaleTimeString()}] ${msg}`);
+      document.getElementById('logs').textContent = logs.join('\n');
+    }
+
+    async function testCitiesAPI() {
+      const output = document.getElementById('cities-output');
+      output.innerHTML = '<p class="text-blue-600">Loading...</p>';
+      
+      try {
+        log('Fetching cities from API...');
+        const response = await fetch('https://api.myquran.com/v2/sholat/kota');
+        log(`Response status: ${response.status} ${response.statusText}`);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+        log(`Response received, status: ${data.status}`);
+        
+        if (data.data && Array.isArray(data.data)) {
+          log(`Cities count: ${data.data.length}`);
+          const html = `
+            <div class="text-green-600 font-bold mb-4">✓ SUCCESS: ${data.data.length} cities loaded</div>
+            <pre>${JSON.stringify(data.data.slice(0, 5), null, 2)}</pre>
+          `;
+          output.innerHTML = html;
+        } else {
+          throw new Error('No data array in response');
+        }
+      } catch (error) {
+        log(`ERROR: ${error.message}`);
+        output.innerHTML = `
+          <div class="text-red-600 font-bold mb-2">✗ FAILED</div>
+          <pre>${error.message}\n${error.stack}</pre>
+        `;
+      }
+    }
+
+    async function testScheduleAPI() {
+      const output = document.getElementById('schedule-output');
+      output.innerHTML = '<p class="text-blue-600">Loading...</p>';
+      
+      try {
+        log('Fetching schedule for Jakarta...');
+        const now = new Date();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const year = now.getFullYear();
+        const url = `https://api.myquran.com/v2/sholat/jadwal/1121/${year}/${month}`;
+        
+        log(`API URL: ${url}`);
+        const response = await fetch(url);
+        log(`Response status: ${response.status} ${response.statusText}`);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+        log(`Response received, status: ${data.status}`);
+        
+        if (data.data && data.data.jadwal) {
+          log(`Schedule loaded: ${data.data.jadwal.length} days`);
+          const html = `
+            <div class="text-green-600 font-bold mb-4">✓ SUCCESS: ${data.data.jadwal.length} days loaded</div>
+            <p class="mb-2"><strong>Lokasi:</strong> ${data.data.lokasi}</p>
+            <pre>${JSON.stringify(data.data.jadwal.slice(0, 3), null, 2)}</pre>
+          `;
+          output.innerHTML = html;
+        } else {
+          throw new Error('No jadwal in response');
+        }
+      } catch (error) {
+        log(`ERROR: ${error.message}`);
+        output.innerHTML = `
+          <div class="text-red-600 font-bold mb-2">✗ FAILED</div>
+          <pre>${error.message}\n${error.stack}</pre>
+        `;
+      }
+    }
+
+    // Auto test on load
+    window.addEventListener('load', () => {
+      log('Debug page loaded');
+      testCitiesAPI();
+    });
+  </script>
+</body>
+</html>

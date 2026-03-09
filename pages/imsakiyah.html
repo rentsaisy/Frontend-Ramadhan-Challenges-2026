@@ -1,0 +1,77 @@
+<div id="page-imsakiyah" class="page-content">
+  <!-- Header Imsakiyah -->
+  <div class="mb-8">
+    <h2 class="text-3xl md:text-4xl font-bold text-emerald-700 mb-2 flex items-center gap-3">
+      <i class="fas fa-clock text-amber-500"></i>Jadwal Imsakiyah
+    </h2>
+    <p class="text-gray-600">Jadwal waktu sholat harian selama bulan Ramadhan</p>
+  </div>
+
+  <!-- City Selection -->
+  <div class="mb-6 bg-white rounded-lg shadow-md p-6">
+    <label class="block text-sm font-semibold text-gray-700 mb-3">
+      <i class="fas fa-map-marker-alt text-emerald-600 mr-2"></i>Pilih Kota
+    </label>
+    <div id="city-loading" class="mb-3">
+      <span class="text-gray-600"><i class="fas fa-spinner animate-spin mr-2"></i>Memuat daftar kota...</span>
+    </div>
+    <div id="city-error" class="hidden mb-3 bg-red-50 border-2 border-red-300 rounded-lg p-4">
+      <p class="text-red-700 font-semibold mb-2">Gagal memuat daftar kota</p>
+      <p class="text-red-600 text-sm mb-3">API MyQuran mungkin sedang tidak responsif atau ada masalah koneksi internet.</p>
+      <button onclick="ImsakiyahController.retryLoadCities()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded font-semibold transition-all">
+        <i class="fas fa-redo mr-2"></i>Coba Lagi
+      </button>
+    </div>
+    <select id="city-select" class="w-full md:w-64 px-4 py-3 border-2 border-emerald-300 rounded-lg focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-200 transition-all font-medium text-gray-700 hidden">
+      <option value="">-- Pilih Kota --</option>
+    </select>
+  </div>
+
+  <!-- Status Messages -->
+  <div id="loading-state" class="hidden mb-6 bg-blue-50 border-2 border-blue-300 rounded-lg p-6">
+    <div class="flex items-center justify-center gap-3">
+      <div class="animate-spin">
+        <i class="fas fa-spinner text-blue-600 text-2xl"></i>
+      </div>
+      <span class="text-blue-700 font-semibold text-lg">Memuat data…</span>
+    </div>
+  </div>
+
+  <div id="error-state" class="hidden mb-6 bg-red-50 border-2 border-red-300 rounded-lg p-6">
+    <div class="flex items-start gap-3">
+      <i class="fas fa-exclamation-circle text-red-600 text-2xl mt-1"></i>
+      <div>
+        <p class="text-red-700 font-semibold">Gagal memuat data</p>
+        <p class="text-red-600 text-sm mt-1" id="error-message">Silahkan coba memilih kota lain atau periksa koneksi internet Anda</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Schedule Table -->
+  <div id="table-container" class="hidden bg-white rounded-lg shadow-lg overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead>
+          <tr class="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white">
+            <th class="px-4 py-4 text-left font-bold text-sm md:text-base">Tanggal</th>
+            <th class="px-4 py-4 text-center font-bold text-sm md:text-base">Imsak</th>
+            <th class="px-4 py-4 text-center font-bold text-sm md:text-base">Subuh</th>
+            <th class="px-4 py-4 text-center font-bold text-sm md:text-base">Dzuhur</th>
+            <th class="px-4 py-4 text-center font-bold text-sm md:text-base">Ashar</th>
+            <th class="px-4 py-4 text-center font-bold text-sm md:text-base">Maghrib</th>
+            <th class="px-4 py-4 text-center font-bold text-sm md:text-base">Isya</th>
+          </tr>
+        </thead>
+        <tbody id="schedule-tbody">
+          <!-- Rows will be inserted here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div id="empty-state" class="text-center py-16">
+    <i class="fas fa-calendar text-gray-300 text-6xl mb-4"></i>
+    <p class="text-gray-500 text-lg font-semibold">Pilih kota untuk melihat jadwal Imsakiyah</p>
+  </div>
+</div>

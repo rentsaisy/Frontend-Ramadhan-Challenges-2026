@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test MyQuran Cities</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    .city { margin: 10px 0; padding: 10px; border: 1px solid #ddd; }
+    .success { background: #d4edda; }
+    .error { background: #f8d7da; }
+  </style>
+</head>
+<body>
+  <h1>Testing MyQuran API Cities</h1>
+  <div id="results"></div>
+
+  <script>
+    const cities = [
+      // Big cities
+      { name: 'Jakarta', ids: [1121, 1127, 1120] },
+      { name: 'Bandung', ids: [1104, 1106] },
+      { name: 'Surabaya', ids: [1126, 1124] },
+      { name: 'Medan', ids: [1102, 1103] },
+      { name: 'Yogyakarta', ids: [1107] },
+      { name: 'Semarang', ids: [1106] },
+      { name: 'Makassar', ids: [1116] },
+      { name: 'Palembang', ids: [1119] },
+      { name: 'Denpasar', ids: [1110] },
+      { name: 'Manado', ids: [1114] }
+    ];
+
+    async function testCity(cityName, cityId) {
+      const month = String((new Date()).getMonth() + 1).padStart(2, '0');
+      const year = new Date().getFullYear();
+      const url = `https://api.myquran.com/v2/sholat/jadwal/${cityId}/${year}/${month}`;
+      
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        if (response.ok && data.data && data.data.lokasi) {
+          return { status: 'success', lokasi: data.data.lokasi, id: cityId };
+        } else {
+          return { status: 'error', id: cityId };
+        }
+      } catch (e) {
+        return { status: 'error', id: cityId };
+      }
+    }
+
+    async function runTests() {
+      const resultsDiv = document.getElementById('results');
+      
+      for (const cityGroup of cities) {
+        resultsDiv.innerHTML += `<h3>${cityGroup.name}</h3>`;
+        
+        for (const cityId of cityGroup.ids) {
+          const result = await testCity(cityGroup.name, cityId);
+          const className = result.status === 'success' ? 'success' : 'error';
+          const message = result.status === 'success' 
+            ? `✓ ID ${result.id} - ${result.lokasi}`
+            : `✗ ID ${result.id} - GAGAL`;
+          resultsDiv.innerHTML += `<div class="city ${className}">${message}</div>`;
+        }
+      }
+    }
+
+    runTests();
+  </script>
+</body>
+</html>
