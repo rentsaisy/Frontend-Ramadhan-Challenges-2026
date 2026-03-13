@@ -52,9 +52,15 @@ const jadwalData = {
 // ============================================
 
 function handleCitySearch() {
+  console.log('handleCitySearch triggered');
+  
   const citySelect = document.getElementById('citySelect');
   const searchBtn = document.getElementById('searchBtn');
   const scheduleTable = document.getElementById('scheduleTable');
+  
+  console.log('citySelect:', citySelect);
+  console.log('searchBtn:', searchBtn);
+  console.log('scheduleTable:', scheduleTable);
   
   if (!citySelect || !searchBtn || !scheduleTable) {
     console.error('Element not found');
@@ -62,6 +68,7 @@ function handleCitySearch() {
   }
   
   const city = citySelect.value;
+  console.log('Selected city:', city);
   
   // Show loading
   searchBtn.disabled = true;
@@ -84,18 +91,28 @@ function handleCitySearch() {
 function populateTable(city = 'jakarta') {
   const table = document.getElementById('scheduleTable');
   
-  if (!table || !jadwalData[city]) {
-    console.error('Table or city data not found');
+  console.log('populateTable called with city:', city);
+  console.log('jadwalData:', jadwalData);
+  console.log('table element:', table);
+  
+  if (!table) {
+    console.error('Table tidak ditemukan');
+    return;
+  }
+  
+  if (!jadwalData[city]) {
+    console.error('Data kota tidak ditemukan untuk:', city);
     return;
   }
   
   table.innerHTML = '';
+  console.log('Populating with', jadwalData[city].length, 'rows');
   
-  jadwalData[city].forEach(item => {
+  jadwalData[city].forEach((item, index) => {
     const row = document.createElement('tr');
     row.innerHTML = `
-      <td style="padding: 1rem; font-weight: 600; color: var(--primary-green);">${item.hari}</td>
-      <td style="padding: 1rem; text-align: center; color: var(--text-light);">${item.tanggal} Ramadhan</td>
+      <td style="padding: 1rem; font-weight: 600; color: #1b5e20;">${item.hari}</td>
+      <td style="padding: 1rem; text-align: center; color: #666666;">${item.tanggal} Ramadhan</td>
       <td style="padding: 1rem; text-align: center; color: #047857; font-weight: 600;">${item.imsak}</td>
       <td style="padding: 1rem; text-align: center; color: #1e40af; font-weight: 600;">${item.subuh}</td>
       <td style="padding: 1rem; text-align: center; color: #b45309; font-weight: 600;">${item.dzuhur}</td>
@@ -105,22 +122,37 @@ function populateTable(city = 'jakarta') {
       <td style="padding: 1rem; text-align: center; color: #7c3aed; font-weight: 600;">${item.isya}</td>
     `;
     row.style.borderBottom = '1px solid #e0e0e0';
-    row.addEventListener('mouseenter', () => row.style.background = '#fef5e7');
-    row.addEventListener('mouseleave', () => row.style.background = 'white');
+    
+    row.addEventListener('mouseenter', function() {
+      this.style.background = '#fef5e7';
+    });
+    row.addEventListener('mouseleave', function() {
+      this.style.background = 'white';
+    });
+    
     table.appendChild(row);
+    console.log('Row', index + 1, 'added');
   });
+  
+  console.log('populateTable finished');
 }
 
 // ============================================
 // ON PAGE LOAD
 // ============================================
 
+console.log('script-simple.js loaded');
+
 document.addEventListener('DOMContentLoaded', function() {
+  console.log('DOMContentLoaded fired');
+  
   // Load default city (Jakarta)
   populateTable('jakarta');
   
   // Button hover effect
   const btn = document.getElementById('searchBtn');
+  console.log('searchBtn element:', btn);
+  
   if (btn) {
     btn.addEventListener('mouseenter', function() {
       this.style.transform = 'translateY(-2px)';
@@ -128,5 +160,6 @@ document.addEventListener('DOMContentLoaded', function() {
     btn.addEventListener('mouseleave', function() {
       this.style.transform = 'translateY(0)';
     });
+    console.log('Button hover events attached');
   }
 });
