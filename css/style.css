@@ -272,7 +272,26 @@ section {
 }
 
 .fitur {
-    background-color: var(--primary-cream);
+    background: linear-gradient(180deg, var(--primary-cream) 0%, #ffffff 100%);
+    position: relative;
+}
+
+.fitur::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(27, 94, 32, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.02) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.fitur > .container {
+    position: relative;
+    z-index: 1;
 }
 
 .artikel {
@@ -299,10 +318,11 @@ section {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 80px;
+    width: 100px;
     height: 4px;
     background: linear-gradient(90deg, var(--primary-green), var(--primary-gold));
     border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(27, 94, 32, 0.2);
 }
 
 .section-subtitle {
@@ -310,6 +330,7 @@ section {
     color: var(--text-light);
     text-align: center;
     margin-bottom: var(--spacing-lg);
+    font-weight: 500;
 }
 
 /* ============================================
@@ -317,69 +338,81 @@ section {
    ============================================ */
 .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: var(--spacing-lg);
-    margin-top: var(--spacing-xl);
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-top: var(--spacing-lg);
+    background: white;
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
 .feature-card {
-    background: white;
+    background: var(--primary-cream);
     border-radius: 12px;
-    padding: var(--spacing-lg);
+    padding: 0;
     text-align: center;
-    box-shadow: var(--shadow-light);
     transition: all 0.3s ease;
-    border-top: 4px solid var(--primary-green);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid transparent;
 }
 
 .feature-card:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-dark);
-    border-top-color: var(--primary-gold);
+    transform: translateY(-5px);
+    background: white;
+    border-color: var(--primary-gold);
+    box-shadow: 0 6px 16px rgba(27, 94, 32, 0.12);
 }
 
 .card-icon {
-    font-size: 3rem;
-    color: var(--primary-green);
-    margin-bottom: var(--spacing-md);
+    font-size: 2.5rem;
+    color: white;
+    margin-bottom: 0;
+    padding: 1.5rem 1rem 1rem;
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
     transition: all 0.3s ease;
 }
 
 .feature-card:hover .card-icon {
-    color: var(--primary-gold);
+    background: linear-gradient(135deg, var(--primary-gold) 0%, #ffd700 100%);
     transform: scale(1.1);
 }
 
 .feature-card h3 {
-    font-size: 1.4rem;
+    font-size: 1.1rem;
     color: var(--primary-green);
-    margin-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
     font-weight: 700;
 }
 
 .feature-card p {
     color: var(--text-light);
     margin-bottom: var(--spacing-md);
-    line-height: 1.8;
+    line-height: 1.5;
+    font-size: 0.85rem;
 }
 
 .card-button {
     display: inline-block;
     background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
     color: white;
-    padding: var(--spacing-xs) var(--spacing-md);
-    border-radius: 25px;
+    padding: 0.5rem 1.5rem;
+    border-radius: 20px;
     text-decoration: none;
     font-weight: 600;
     transition: all 0.3s ease;
-    border: 2px solid var(--primary-green);
+    border: 2px solid transparent;
+    margin: 0 var(--spacing-xs) var(--spacing-md);
+    font-size: 0.85rem;
 }
 
 .card-button:hover {
     background: linear-gradient(135deg, var(--primary-gold), #ffed4e);
     color: var(--primary-green);
-    border-color: var(--primary-gold);
     transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(27, 94, 32, 0.2);
 }
 
 /* ============================================
@@ -640,8 +673,8 @@ section {
     }
 
     .features-grid {
-        grid-template-columns: 1fr;
-        gap: var(--spacing-md);
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
     }
 
     .artikel-grid {
@@ -715,16 +748,33 @@ section {
         font-size: 0.95rem;
     }
 
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
     .feature-card {
-        padding: var(--spacing-md);
+        padding: 0;
     }
 
     .card-icon {
         font-size: 2.5rem;
+        padding: 1.5rem 1rem 1rem;
     }
 
     .feature-card h3 {
-        font-size: 1.1rem;
+        font-size: 1rem;
+    }
+
+    .feature-card p {
+        font-size: 0.85rem;
+        padding: 0 var(--spacing-md);
+    }
+
+    .card-button {
+        padding: 0.5rem 1rem;
+        margin: var(--spacing-sm) var(--spacing-xs) var(--spacing-md);
+        font-size: 0.85rem;
     }
 
     .artikel-grid {
