@@ -1105,6 +1105,27 @@ const ramadhanSchedules = {
   }
 };
 
+// Function to handle city search button
+function handleCitySearch() {
+  const citySelect = document.getElementById('citySelect');
+  const searchBtn = document.getElementById('searchBtn');
+  
+  if (!citySelect) return;
+  
+  // Add loading state to button
+  searchBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memuat...';
+  searchBtn.disabled = true;
+  
+  // Generate schedule
+  generateScheduleTable(citySelect.value);
+  
+  // Reset button after animation
+  setTimeout(() => {
+    searchBtn.innerHTML = '<i class="fas fa-search"></i> Tampilkan';
+    searchBtn.disabled = false;
+  }, 600);
+}
+
 // Function to generate schedule table
 function generateScheduleTable(city = 'jakarta') {
   const scheduleTable = document.getElementById('scheduleTable');
@@ -1173,26 +1194,25 @@ function copyDoa(button, text) {
   });
 }
 
-// Event listener for city selector
+// Event listener for initial load
 document.addEventListener('DOMContentLoaded', function() {
   const citySelect = document.getElementById('citySelect');
+  const searchBtn = document.getElementById('searchBtn');
+  
   if (citySelect) {
-    // Generate initial schedule
+    // Generate initial schedule with Jakarta
     generateScheduleTable('jakarta');
-    
-    // Listen for city changes with visual feedback
-    citySelect.addEventListener('change', function() {
-      const originalText = this.style.opacity;
-      this.style.opacity = '0.6';
-      this.style.cursor = 'wait';
-      
-      generateScheduleTable(this.value);
-      
-      // Reset visual state after animation completes
-      setTimeout(() => {
-        this.style.opacity = '1';
-        this.style.cursor = 'pointer';
-      }, 300);
+  }
+  
+  // Add hover effect to button
+  if (searchBtn) {
+    searchBtn.addEventListener('mouseenter', function() {
+      this.style.transform = 'translateY(-2px)';
+      this.style.boxShadow = 'var(--shadow-medium)';
+    });
+    searchBtn.addEventListener('mouseleave', function() {
+      this.style.transform = 'translateY(0)';
+      this.style.boxShadow = 'none';
     });
   }
 });
