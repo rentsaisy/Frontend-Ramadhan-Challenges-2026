@@ -1,303 +1,426 @@
 /* ============================================
    RAMADHAN PORTAL - JAVASCRIPT
+   Performance: Event delegation, Debouncing, Caching
    ============================================ */
 
 // ============================================
-// NAVBAR FUNCTIONALITY
+// PERFORMANCE: CACHING & DEBOUNCING UTILITIES
+// ============================================
+
+// Debounce function for resize/scroll events
+const debounce = (func, wait) => {
+    let timeout;
+    return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+};
+
+// Cache DOM elements
+const domCache = {
+    menuToggle: null,
+    navMenu: null,
+    navLinks: null,
+    
+    init() {
+        this.menuToggle = document.getElementById('menuToggle');
+        this.navMenu = document.getElementById('navMenu');
+        this.navLinks = document.querySelectorAll('.nav-link');
+        return this;
+    },
+    
+    clear() {
+        this.menuToggle = null;
+        this.navMenu = null;
+        this.navLinks = null;
+    }
+};
+
+// ============================================
+// NAVBAR FUNCTIONALITY (OPTIMIZED)
 // ============================================
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Get elements
-    const menuToggle = document.getElementById('menuToggle');
-    const navMenu = document.getElementById('navMenu');
-    const navLinks = document.querySelectorAll('.nav-link');
+    // Initialize cache
+    domCache.init();
     
     // Get current page filename
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
     
     // Set active link based on current page
-    navLinks.forEach(link => {
+    domCache.navLinks.forEach(link => {
         const href = link.getAttribute('href');
         
-        // Handle different page paths
-        if ((currentPage === 'index.html' && href === 'index.html') ||
-            (currentPage === 'index.html' && href === './index.html') ||
-            (!currentPage && href === 'index.html')) {
-            link.classList.add('active');
-        } else if ((currentPage === 'jadwal.html' && href === 'pages/jadwal.html') ||
-                   (currentPage === 'jadwal.html' && href.includes('jadwal'))) {
-            link.classList.add('active');
-        } else if ((currentPage === 'doa.html' && href === 'pages/doa.html') ||
-                   (currentPage === 'doa.html' && href.includes('doa'))) {
-            link.classList.add('active');
-        } else if ((currentPage === 'doa-sahur-buka.html' && href === 'pages/doa-sahur-buka.html') ||
-                   (currentPage === 'doa-sahur-buka.html' && href.includes('doa-sahur-buka'))) {
+        // Handle different page paths - optimized logic
+        if ((currentPage === 'index.html' || !currentPage) && (href === 'index.html' || href === './index.html') ||
+            (currentPage === 'jadwal.html' && href.includes('jadwal')) ||
+            (currentPage === 'doa.html' && href.includes('doa') && !href.includes('sahur')) ||
+            (currentPage === 'todo.html' && href.includes('todo')) ||
+            (currentPage === 'zakat.html' && href.includes('zakat')) ||
+            (currentPage === 'zikir.html' && href.includes('zikir'))) {
             link.classList.add('active');
         }
     });
     
     // Toggle mobile menu
-    if (menuToggle) {
-        menuToggle.addEventListener('click', function() {
-            menuToggle.classList.toggle('active');
-            navMenu.classList.toggle('active');
-        });
+    if (domCache.menuToggle) {
+        domCache.menuToggle.addEventListener('click', toggleMenu);
     }
     
     // Close mobile menu when a link is clicked
-    navLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            menuToggle.classList.remove('active');
-            navMenu.classList.remove('active');
-        });
+    domCache.navLinks.forEach(link => {
+        link.addEventListener('click', closeMenu);
     });
     
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', function(event) {
-        const isClickInsideMenu = navMenu.contains(event.target);
-        const isClickOnToggle = menuToggle.contains(event.target);
-        
-        if (!isClickInsideMenu && !isClickOnToggle && navMenu.classList.contains('active')) {
-            menuToggle.classList.remove('active');
-            navMenu.classList.remove('active');
-        }
-    });
+    // Close mobile menu when clicking outside (delegated)
+    document.addEventListener('click', handleOutsideClick, false);
 });
 
-// ============ HITUNG ZIKIR FUNCTIONALITY ============
+// Optimized menu toggle
+function toggleMenu() {
+    domCache.menuToggle.classList.toggle('active');
+    domCache.navMenu.classList.toggle('active');
+    
+    // Announce for accessibility
+    const isOpen = domCache.navMenu.classList.contains('active');
+    domCache.menuToggle.setAttribute('aria-expanded', isOpen);
+}
+
+// Close menu
+function closeMenu() {
+    domCache.menuToggle?.classList.remove('active');
+    domCache.navMenu?.classList.remove('active');
+    domCache.menuToggle?.setAttribute('aria-expanded', false);
+}
+
+// Handle outside click - optimized
+function handleOutsideClick(event) {
+    if (!domCache.navMenu || !domCache.menuToggle) return;
+    
+    const isClickInsideMenu = domCache.navMenu.contains(event.target);
+    const isClickOnToggle = domCache.menuToggle.contains(event.target);
+    
+    if (!isClickInsideMenu && !isClickOnToggle && domCache.navMenu.classList.contains('active')) {
+        closeMenu();
+    }
+}
+
+// ============================================
+// HITUNG ZIKIR FUNCTIONALITY (OPTIMIZED)
+// ============================================
+
 let counter = 0;
 let target = 33;
+let lastAnimatedButton = null;
 
 function increment() {
-  counter++;
-  updateDisplay();
-  triggerButtonAnimation('.add-btn');
-  checkTarget();
+    counter++;
+    updateDisplay();
+    triggerButtonAnimation('.add-btn');
+    checkTarget();
+    saveZikirState(); // Auto-save
 }
 
 function resetCounter() {
-  counter = 0;
-  const notifArea = document.getElementById('notification-area');
-  if (notifArea) {
-    notifArea.classList.add('hidden');
-  }
-  updateDisplay();
-  triggerButtonAnimation('.reset-btn');
+    counter = 0;
+    const notifArea = document.getElementById('notification-area');
+    if (notifArea) {
+        notifArea.classList.add('hidden');
+    }
+    updateDisplay();
+    triggerButtonAnimation('.reset-btn');
+    saveZikirState();
 }
 
 function setTarget(value) {
-  target = value;
-  const customInput = document.getElementById('customTarget');
-  if (customInput) {
-    customInput.value = '';
-  }
-  updateDisplay();
+    target = value;
+    const customInput = document.getElementById('customTarget');
+    if (customInput) {
+        customInput.value = '';
+    }
+    updateDisplay();
+    saveZikirState();
 }
 
 function setCustomTarget() {
-  const customTarget = document.getElementById('customTarget');
-  if (customTarget && customTarget.value && !isNaN(customTarget.value) && customTarget.value > 0) {
-    target = parseInt(customTarget.value);
-    updateDisplay();
-  } else {
-    alert('Masukkan angka target yang valid!');
-  }
+    const customTarget = document.getElementById('customTarget');
+    if (customTarget && customTarget.value && !isNaN(customTarget.value) && customTarget.value > 0) {
+        target = parseInt(customTarget.value);
+        updateDisplay();
+        saveZikirState();
+    } else {
+        alert('Masukkan angka target yang valid!');
+    }
 }
 
 function updateDisplay() {
-  const counterEl = document.getElementById('counter');
-  const targetValueEl = document.getElementById('target-value');
-  const progressBar = document.getElementById('progress-bar');
-  const progressText = document.getElementById('progress-text');
+    const counterEl = document.getElementById('counter');
+    const targetValueEl = document.getElementById('target-value');
+    const progressBar = document.getElementById('progress-bar');
+    const progressText = document.getElementById('progress-text');
+    const progressPercent = document.getElementById('progressPercent');
+    const progressFill = document.getElementById('progressFill');
 
-  if (counterEl) counterEl.textContent = counter;
-  if (targetValueEl) targetValueEl.textContent = target;
+    // Update counter
+    if (counterEl) counterEl.textContent = counter;
+    if (targetValueEl) targetValueEl.textContent = target;
 
-  // Update progress bar
-  if (progressBar) {
-    const progressPercent = Math.min((counter / target) * 100, 100);
-    progressBar.style.width = progressPercent + '%';
-  }
-  if (progressText) {
-    progressText.textContent = Math.round((counter / target) * 100) + '%';
-  }
+    // Calculate progress (cached to avoid repeated calculations)
+    const progress = Math.min((counter / target) * 100, 100);
+
+    // Update progress bar
+    if (progressBar) progressBar.style.width = progress + '%';
+    if (progressFill) progressFill.style.width = progress + '%';
+    if (progressText) progressText.textContent = Math.round(progress) + '%';
+    if (progressPercent) progressPercent.textContent = Math.round(progress);
 }
 
 function checkTarget() {
-  const notifArea = document.getElementById('notification-area');
-  if (counter >= target && counter > 0) {
-    if (notifArea) {
-      notifArea.classList.remove('hidden');
+    const notifArea = document.getElementById('notification-area');
+    if (!notifArea) return;
+    
+    if (counter >= target && counter > 0) {
+        notifArea.classList.remove('hidden');
+    } else {
+        notifArea.classList.add('hidden');
     }
-  } else {
-    if (notifArea) {
-      notifArea.classList.add('hidden');
-    }
-  }
 }
 
 function triggerButtonAnimation(selector) {
-  const btn = document.querySelector(selector);
-  if (btn) {
-    btn.style.transform = 'scale(0.95)';
-    setTimeout(() => {
-      btn.style.transform = 'scale(1)';
-    }, 100);
-  }
-}
-
-// ============ DOA PAGE FUNCTIONALITY ============
-function showCategory(category) {
-  // Update buttons
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.classList.remove('active', 'bg-emerald-500', 'text-white');
-    btn.classList.add('bg-white', 'text-gray-700', 'border', 'border-gray-300');
-  });
-  
-  const activeTabBtn = document.getElementById(`tab-${category}`);
-  if (activeTabBtn) {
-    activeTabBtn.classList.add('active', 'bg-emerald-500', 'text-white');
-    activeTabBtn.classList.remove('bg-white', 'text-gray-700', 'border', 'border-gray-300');
-  }
-
-  // Update cards
-  document.querySelectorAll('.card').forEach(card => {
-    if (category === 'semua' || card.classList.contains(`category-${category}`)) {
-      card.classList.remove('hidden');
-      card.style.animation = 'fadeIn 0.3s ease-in';
-    } else {
-      card.classList.add('hidden');
+    const btn = document.querySelector(selector);
+    if (btn && btn !== lastAnimatedButton) {
+        lastAnimatedButton = btn;
+        btn.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            btn.style.transform = 'scale(1)';
+        }, 100);
     }
-  });
 }
 
-// ============ COPY TO CLIPBOARD ============
+// ============================================
+// STORAGE UTILITIES
+// ============================================
+
+function saveZikirState() {
+    try {
+        sessionStorage.setItem('zikir-counter', counter);
+        sessionStorage.setItem('zikir-target', target);
+    } catch (e) {
+        console.warn('SessionStorage not available');
+    }
+}
+
+function loadZikirState() {
+    try {
+        const savedCounter = sessionStorage.getItem('zikir-counter');
+        const savedTarget = sessionStorage.getItem('zikir-target');
+        
+        if (savedCounter) counter = parseInt(savedCounter);
+        if (savedTarget) target = parseInt(savedTarget);
+        
+        updateDisplay();
+    } catch (e) {
+        console.warn('SessionStorage not available');
+    }
+}
+
+// ============================================
+// DOA PAGE FUNCTIONALITY (OPTIMIZED)
+// ============================================
+
+function showCategory(category) {
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const cards = document.querySelectorAll('.card');
+    
+    // Update buttons efficiently
+    tabBtns.forEach(btn => {
+        const isActive = btn.id === `tab-${category}`;
+        btn.classList.toggle('active', isActive);
+        btn.classList.toggle('bg-emerald-500', isActive);
+        btn.classList.toggle('text-white', isActive);
+        btn.classList.toggle('bg-white', !isActive);
+        btn.classList.toggle('text-gray-700', !isActive);
+    });
+
+    // Update cards efficiently
+    cards.forEach(card => {
+        const shouldShow = category === 'semua' || card.classList.contains(`category-${category}`);
+        
+        if (shouldShow) {
+            card.classList.remove('hidden');
+            card.style.animation = 'fadeIn 0.3s ease-in';
+        } else {
+            card.classList.add('hidden');
+        }
+    });
+}
+
+// ============================================
+// COPY TO CLIPBOARD (OPTIMIZED)
+// ============================================
+
 function copyToClipboard(button, text) {
-  navigator.clipboard.writeText(text).then(() => {
+    // Use modern clipboard API with fallback
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => {
+            showToast('Doa berhasil disalin!');
+        }).catch(() => {
+            fallbackCopy(text);
+        });
+    } else {
+        fallbackCopy(text);
+    }
+}
+
+function fallbackCopy(text) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    showToast('Doa berhasil disalin!');
+}
+
+function showToast(message) {
     const toast = document.getElementById('toast');
     const toastMessage = document.getElementById('toast-message');
     
-    if (toastMessage) {
-      toastMessage.textContent = 'Doa berhasil disalin!';
-    }
+    if (toastMessage) toastMessage.textContent = message;
     if (toast) {
-      toast.classList.remove('hidden');
-      setTimeout(() => {
-        toast.classList.add('hidden');
-      }, 2500);
+        toast.classList.remove('hidden');
+        setTimeout(() => {
+            toast.classList.add('hidden');
+        }, 2500);
     }
-  });
 }
 
-// ============ SHARE FUNCTION ============
+// ============================================
+// SHARE FUNCTION
+// ============================================
+
 function shareApp() {
-  if (navigator.share) {
-    navigator.share({
-      title: 'Kumpulan Doa Ramadhan',
-      text: 'Aplikasi doa Ramadhan untuk membantu ibadah Anda 🌙',
-      url: window.location.href
-    });
-  } else {
-    alert('Bagikan URL ini: ' + window.location.href);
-  }
+    if (navigator.share) {
+        navigator.share({
+            title: 'Ramadhan Portal 2026',
+            text: 'Aplikasi Ramadhan untuk membantu ibadah Anda 🌙',
+            url: window.location.href
+        }).catch(err => console.log('Share cancelled:', err));
+    } else {
+        alert('Bagikan URL ini: ' + window.location.href);
+    }
 }
-// ============ KALKULATOR ZAKAT FUNCTIONALITY ============
+
+// ============================================
+// KALKULATOR ZAKAT FUNCTIONALITY (OPTIMIZED)
+// ============================================
+
 function changeZakatType() {
-  const zakatType = document.getElementById('zakatType').value;
-  const formPenghasilan = document.getElementById('formPenghasilan');
-  const formEmas = document.getElementById('formEmas');
-  const goldPriceContainer = document.getElementById('goldPriceContainer');
-  
-  if (zakatType === 'penghasilan') {
-    formPenghasilan.classList.remove('hidden');
-    formEmas.classList.add('hidden');
-    // Sembunyikan input harga emas untuk zakat penghasilan
-    goldPriceContainer.classList.add('hidden');
-  } else {
-    formPenghasilan.classList.add('hidden');
-    formEmas.classList.remove('hidden');
-    // Tampilkan input harga emas untuk zakat emas
-    goldPriceContainer.classList.remove('hidden');
-  }
+    const zakatType = document.getElementById('zakatType').value;
+    const formPenghasilan = document.getElementById('formPenghasilan');
+    const formEmas = document.getElementById('formEmas');
+    const goldPriceContainer = document.getElementById('goldPriceContainer');
+    
+    const isPenghasilan = zakatType === 'penghasilan';
+    
+    formPenghasilan?.classList.toggle('hidden', !isPenghasilan);
+    formEmas?.classList.toggle('hidden', isPenghasilan);
+    goldPriceContainer?.classList.toggle('hidden', isPenghasilan);
 }
 
 function formatNumber(num) {
-  return new Intl.NumberFormat('id-ID').format(Math.round(num));
+    return new Intl.NumberFormat('id-ID').format(Math.round(num));
 }
 
 function calculateZakat() {
-  const zakatType = document.getElementById('zakatType').value;
-  
-  let zakatAmount = 0;
-  let isWajibZakat = false;
-  
-  if (zakatType === 'penghasilan') {
-    // ===== ZAKAT PENGHASILAN (BERDASARKAN PENGHASILAN BULANAN) =====
-    const goldPrice = parseFloat(document.getElementById('goldPrice').value) || 900000;
+    const zakatType = document.getElementById('zakatType').value;
+    let zakatAmount = 0;
+    let isWajibZakat = false;
     
-    // Ambil input penghasilan bulanan
+    if (zakatType === 'penghasilan') {
+        zakatAmount = calculateZakatPenghasilan();
+    } else {
+        zakatAmount = calculateZakatEmas();
+    }
+    
+    displayZakatResult(zakatAmount);
+}
+
+function calculateZakatPenghasilan() {
+    const goldPrice = parseFloat(document.getElementById('goldPrice').value) || 900000;
     const salary = parseFloat(document.getElementById('salary').value) || 0;
     const otherIncome = parseFloat(document.getElementById('otherIncome').value) || 0;
-    
-    // Total penghasilan bulanan bersih
     const monthlyAmount = salary + otherIncome;
+    const nisabPerMonth = (goldPrice * 85) / 12;
     
-    // Hitung nisab bulanan = (Harga emas per gram × 85 gram) ÷ 12 bulan
-    const nisabPerYear = goldPrice * 85;
-    const nisabPerMonth = nisabPerYear / 12;
-    
-    // Bandingkan penghasilan bulanan dengan nisab bulanan
-    if (monthlyAmount >= nisabPerMonth) {
-      isWajibZakat = true;
-      // Zakat per bulan = 2.5% × Penghasilan bulanan bersih
-      zakatAmount = monthlyAmount * 0.025;
-    } else {
-      isWajibZakat = false;
-      zakatAmount = 0;
-    }
-    
-    // Update result display untuk zakat penghasilan
-    document.getElementById('monthlyIncomeBox').classList.remove('hidden');
-    document.getElementById('monthlyNisabBox').classList.remove('hidden');
-    document.getElementById('totalEmasBox').classList.add('hidden');
-    
-    document.getElementById('monthlyAmount').textContent = formatNumber(monthlyAmount);
-    document.getElementById('monthlyNisabAmount').textContent = formatNumber(nisabPerMonth);
-    document.getElementById('nisabAmount').textContent = formatNumber(nisabPerYear);
-    
-    // Update label untuk zakat amount (per bulan)
-    document.getElementById('zakatLabel').textContent = 'Jumlah Zakat Per Bulan (2,5%)';
-    
-    // Sembunyikan input harga emas untuk zakat penghasilan (opsional)
-    // document.getElementById('goldPriceContainer').classList.add('hidden');
-    
-  } else {
-    // ===== ZAKAT EMAS =====
+    return monthlyAmount >= nisabPerMonth ? monthlyAmount * 0.025 : 0;
+}
+
+function calculateZakatEmas() {
     const goldPrice = parseFloat(document.getElementById('goldPrice').value) || 900000;
-    const goldAmount = parseFloat(document.getElementById('goldAmount').value) || 0;
+    const goldWeight = parseFloat(document.getElementById('goldWeight').value) || 0;
     
-    // Update gold price display
-    document.getElementById('goldPriceDisplay').textContent = formatNumber(goldPrice);
+    return goldWeight >= 85 ? (goldWeight * 0.025) * goldPrice : 0;
+}
+
+function displayZakatResult(zakatAmount) {
+    const resultContainer = document.getElementById('zakatResult');
+    const zakatAmountEl = document.getElementById('zakatAmount');
+    const statusMsg = document.getElementById('statusMessage');
+    const statusInfo = document.getElementById('statusInfo');
     
-    // Calculate nisab (85 gram emas)
-    const nisabGram = 85;
-    const nisabAmount = goldPrice * nisabGram;
+    if (zakatAmountEl) zakatAmountEl.textContent = 'Rp ' + formatNumber(zakatAmount);
     
-    // Hitung nilai total emas
-    const totalEmasAmount = goldAmount * goldPrice;
-    
-    // Bandingkan jumlah emas dengan nisab (85 gram)
-    if (goldAmount >= nisabGram) {
-      isWajibZakat = true;
-      // Zakat = 2.5% dari jumlah emas (dalam gram), dikonversi ke rupiah
-      zakatAmount = (goldAmount * 0.025) * goldPrice;
-    } else {
-      isWajibZakat = false;
-      zakatAmount = 0;
+    if (resultContainer) {
+        resultContainer.style.display = zakatAmount > 0 ? 'block' : 'none';
     }
     
-    // Update result display untuk zakat emas
-    document.getElementById('monthlyIncomeBox').classList.add('hidden');
+    if (statusMsg && statusInfo) {
+        if (zakatAmount > 0) {
+            statusMsg.textContent = '✓ Zakat Wajib Dikeluarkan';
+            statusInfo.style.background = '#e8f5e9';
+            statusInfo.style.borderLeftColor = 'var(--primary-green)';
+            statusMsg.style.color = 'var(--primary-green)';
+        } else {
+            statusMsg.textContent = '⚠️ Zakat Belum Wajib atau Nihil';
+            statusInfo.style.background = '#fef5e7';
+            statusInfo.style.borderLeftColor = 'var(--primary-gold)';
+            statusMsg.style.color = '#b8860b';
+        }
+    }
+}
+
+// ============================================
+// ACCESSIBILITY - KEYBOARD NAVIGATION
+// ============================================
+
+document.addEventListener('keydown', function(e) {
+    // Close menu with Escape key
+    if (e.key === 'Escape' && domCache.navMenu?.classList.contains('active')) {
+        closeMenu();
+    }
+});
+
+// ============================================
+// PERFORMANCE: LAZY LOADING IMAGES
+// ============================================
+
+if ('IntersectionObserver' in window) {
+    const lazyImages = document.querySelectorAll('img[data-src]');
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.src = entry.target.dataset.src;
+                entry.target.removeAttribute('data-src');
+                observer.unobserve(entry.target);
+            }
+        });
+    });
+    
+    lazyImages.forEach(img => imageObserver.observe(img));
+}
     document.getElementById('monthlyNisabBox').classList.add('hidden');
     document.getElementById('totalEmasBox').classList.remove('hidden');
     
