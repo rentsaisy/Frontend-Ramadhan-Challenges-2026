@@ -1113,36 +1113,41 @@ function generateScheduleTable(city = 'jakarta') {
     return;
   }
 
-  const schedule = ramadhanSchedules[city].dates;
-  scheduleTable.innerHTML = '';
+  // Show loading state
+  scheduleTable.innerHTML = '<tr><td colspan="9" style="padding: 2rem; text-align: center; color: var(--text-light);"><i class="fas fa-spinner fa-spin" style="margin-right: 0.5rem;"></i> Memuat jadwal...</td></tr>';
+  
+  // Simulate loading with slight delay for better UX
+  setTimeout(() => {
+    const schedule = ramadhanSchedules[city].dates;
+    scheduleTable.innerHTML = '';
 
-  schedule.forEach(item => {
-    const row = document.createElement('tr');
-    row.style.borderBottom = '1px solid var(--border-color)';
-    row.style.transition = 'all 0.3s ease';
-    
-    row.innerHTML = `
-      <td style="padding: 1rem; font-weight: 600; color: var(--primary-green);">${item.day}</td>
-      <td style="padding: 1rem; text-align: center; color: var(--text-light);">${item.date} Ramadhan</td>
-      <td style="padding: 1rem; text-align: center; color: #047857; font-weight: 600;">${item.imsak}</td>
-      <td style="padding: 1rem; text-align: center; color: #1e40af; font-weight: 600;">${item.subuh}</td>
-      <td style="padding: 1rem; text-align: center; color: #b45309; font-weight: 600;">${item.dzuhur}</td>
-      <td style="padding: 1rem; text-align: center; color: #c2410c; font-weight: 600;">${item.ashar}</td>
-      <td style="padding: 1rem; text-align: center; color: #dc2626; font-weight: 600;">${item.berbuka}</td>
-      <td style="padding: 1rem; text-align: center; color: #7c2d12; font-weight: 600;">${item.maghrib}</td>
-      <td style="padding: 1rem; text-align: center; color: #7c3aed; font-weight: 600;">${item.isya}</td>
-    `;
-    
-    row.addEventListener('mouseenter', () => {
-      row.style.background = 'var(--primary-cream)';
+    schedule.forEach(item => {
+      const row = document.createElement('tr');
+      row.style.borderBottom = '1px solid var(--border-color)';
+      row.style.transition = 'all 0.3s ease';
+      
+      row.innerHTML = `
+        <td style="padding: 1rem; font-weight: 600; color: var(--primary-green);">${item.day}</td>
+        <td style="padding: 1rem; text-align: center; color: var(--text-light);">${item.date} Ramadhan</td>
+        <td style="padding: 1rem; text-align: center; color: #047857; font-weight: 600;">${item.imsak}</td>
+        <td style="padding: 1rem; text-align: center; color: #1e40af; font-weight: 600;">${item.subuh}</td>
+        <td style="padding: 1rem; text-align: center; color: #b45309; font-weight: 600;">${item.dzuhur}</td>
+        <td style="padding: 1rem; text-align: center; color: #c2410c; font-weight: 600;">${item.ashar}</td>
+        <td style="padding: 1rem; text-align: center; color: #dc2626; font-weight: 600;">${item.berbuka}</td>
+        <td style="padding: 1rem; text-align: center; color: #7c2d12; font-weight: 600;">${item.maghrib}</td>
+        <td style="padding: 1rem; text-align: center; color: #7c3aed; font-weight: 600;">${item.isya}</td>
+      `;
+      
+      row.addEventListener('mouseenter', () => {
+        row.style.background = 'var(--primary-cream)';
+      });
+      row.addEventListener('mouseleave', () => {
+        row.style.background = 'white';
+      });
+      
+      scheduleTable.appendChild(row);
     });
-    row.addEventListener('mouseleave', () => {
-      row.style.background = 'white';
-    });
-    
-    scheduleTable.appendChild(row);
-  });
-}
+  }, 300);
 
 // Function for copy doa
 function copyDoa(button, text) {
@@ -1175,9 +1180,19 @@ document.addEventListener('DOMContentLoaded', function() {
     // Generate initial schedule
     generateScheduleTable('jakarta');
     
-    // Listen for city changes
+    // Listen for city changes with visual feedback
     citySelect.addEventListener('change', function() {
+      const originalText = this.style.opacity;
+      this.style.opacity = '0.6';
+      this.style.cursor = 'wait';
+      
       generateScheduleTable(this.value);
+      
+      // Reset visual state after animation completes
+      setTimeout(() => {
+        this.style.opacity = '1';
+        this.style.cursor = 'pointer';
+      }, 300);
     });
   }
 });
