@@ -1110,7 +1110,10 @@ function handleCitySearch() {
   const citySelect = document.getElementById('citySelect');
   const searchBtn = document.getElementById('searchBtn');
   
-  if (!citySelect) return;
+  if (!citySelect || !searchBtn) {
+    console.error('City selector or search button not found');
+    return;
+  }
   
   // Add loading state to button
   searchBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memuat...';
@@ -1169,6 +1172,7 @@ function generateScheduleTable(city = 'jakarta') {
       scheduleTable.appendChild(row);
     });
   }, 300);
+}
 
 // Function for copy doa
 function copyDoa(button, text) {
