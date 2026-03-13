@@ -411,6 +411,16 @@ section {
     background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
     position: relative;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    color: rgba(255, 255, 255, 0.9);
+    transition: transform 0.3s ease;
+}
+
+.artikel-image:hover {
+    transform: scale(1.05);
 }
 
 .artikel-image::before {
@@ -421,6 +431,13 @@ section {
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.artikel-image i {
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .artikel-1 {
