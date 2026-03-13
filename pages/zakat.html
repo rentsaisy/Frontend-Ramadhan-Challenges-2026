@@ -1,177 +1,305 @@
-<!-- PAGE: KALKULATOR ZAKAT -->
-<div id="page-zakat" class="page-content hidden">
-  <section class="max-w-4xl mx-auto">
-    <!-- Page Title -->
-    <div class="text-center mb-12">
-      <h2 class="text-4xl md:text-5xl font-bold text-emerald-700 mb-3">
-        <i class="fas fa-coins mr-3"></i>Kalkulator Zakat
-      </h2>
-      <p class="text-gray-600 text-lg">Hitung kewajiban zakat Anda dengan mudah dan akurat</p>
-    </div>
-
-    <!-- Main Calculator Container -->
-    <div class="grid md:grid-cols-2 gap-8 mb-8">
-      <!-- Input Form Section -->
-      <div class="bg-white rounded-3xl shadow-lg p-8">
-        <h3 class="text-2xl font-bold text-emerald-700 mb-6">
-          <i class="fas fa-calculator mr-2"></i>Perhitungan Zakat
-        </h3>
-
-        <!-- Jenis Zakat Selection -->
-        <div class="mb-6">
-          <label class="block text-sm font-bold text-gray-700 mb-3">Pilih Jenis Zakat</label>
-          <select id="zakatType" onchange="changeZakatType()" class="w-full px-4 py-3 border-2 border-emerald-300 rounded-lg focus:outline-none focus:border-emerald-500 text-gray-700 font-semibold">
-            <option value="penghasilan">Zakat Penghasilan</option>
-            <option value="emas">Zakat Emas</option>
-          </select>
-        </div>
-
-        <!-- Harga Emas Per Gram (Shared) -->
-        <div id="goldPriceContainer" class="mb-6 pb-6 border-b-2 border-gray-200">
-          <label class="block text-sm font-bold text-gray-700 mb-2">
-            <i class="fas fa-tag mr-2"></i>Harga Emas Per Gram (Rp)
-          </label>
-          <input type="number" id="goldPrice" value="900000" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-emerald-500 text-gray-700" placeholder="Masukkan harga emas per gram">
-          <small class="text-gray-500 mt-2 block">Saat ini: Rp <span id="goldPriceDisplay">900.000</span>/gram</small>
-        </div>
-
-        <!-- Dynamic Form Section -->
-        <div id="formContainer">
-          <!-- Zakat Penghasilan Form -->
-          <div id="formPenghasilan" class="space-y-4">
-            <div>
-              <label class="block text-sm font-bold text-gray-700 mb-2">
-                <i class="fas fa-briefcase mr-2"></i>Gaji/Penghasilan Utama (Rp)
-              </label>
-              <input type="number" id="salary" value="0" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-emerald-500 text-gray-700" placeholder="Masukkan gaji/penghasilan utama">
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Zakat - Ramadhan Portal</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- HEADER & NAVIGATION -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="navbar-container">
+                <div class="navbar-logo">
+                    <a href="../index.html">
+                        <i class="fas fa-moon"></i> Ramadhan Portal
+                    </a>
+                </div>
+                <div class="menu-toggle" id="menuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li class="nav-item">
+                        <a href="../index.html" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="jadwal.html" class="nav-link">Jadwal Imsakiyah</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="doa.html" class="nav-link">Doa Ramadhan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="todo.html" class="nav-link">To-Do</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="zakat.html" class="nav-link active">Zakat</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="zikir.html" class="nav-link">Zikir</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../index.html#artikel" class="nav-link">Artikel</a>
+                    </li>
+                </ul>
             </div>
-            <div>
-              <label class="block text-sm font-bold text-gray-700 mb-2">
-                <i class="fas fa-plus mr-2"></i>Penghasilan Lain (Rp)
-              </label>
-              <input type="number" id="otherIncome" value="0" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-emerald-500 text-gray-700" placeholder="Masukkan penghasilan lain (opsional)">
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <!-- HERO SECTION -->
+        <section style="background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%); color: white; padding: 4rem var(--spacing-md) 3rem; text-align: center;">
+            <div style="max-width: 800px; margin: 0 auto;">
+                <h1 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; color: white;"><i class="fas fa-calculator" style="color: var(--primary-gold); margin-right: 0.5rem;"></i> Kalkulator Zakat</h1>
+                <p style="font-size: 1.1rem; color: white; opacity: 0.95;">Hitung kewajiban zakat Anda dengan mudah dan akurat</p>
             </div>
-          </div>
+        </section>
 
-          <!-- Zakat Emas Form (Hidden) -->
-          <div id="formEmas" class="space-y-4 hidden">
-            <div>
-              <label class="block text-sm font-bold text-gray-700 mb-2">
-                <i class="fas fa-crown mr-2"></i>Jumlah Emas (Gram)
-              </label>
-              <input type="number" id="goldAmount" value="0" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-emerald-500 text-gray-700" placeholder="Masukkan jumlah emas dalam gram">
+        <!-- CALCULATOR SECTION -->
+        <section class="fitur">
+            <div class="container">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                    <!-- Input Form -->
+                    <div style="background: white; border-radius: 12px; padding: 2rem; box-shadow: var(--shadow-light);">
+                        <h3 style="font-size: 1.3rem; color: var(--primary-green); font-weight: 700; margin-bottom: 1.5rem;">
+                            <i class="fas fa-calculator" style="margin-right: 0.5rem;"></i>Perhitungan Zakat
+                        </h3>
+
+                        <!-- Jenis Zakat Selection -->
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="font-weight: 700; color: var(--primary-green); margin-bottom: 0.5rem; display: block;">Pilih Jenis Zakat</label>
+                            <select id="zakatType" onchange="changeZakatType()" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 2px solid var(--primary-green); font-size: 1rem; font-weight: 600; color: var(--primary-green); cursor: pointer;">
+                                <option value="penghasilan">Zakat Penghasilan</option>
+                                <option value="emas">Zakat Emas</option>
+                            </select>
+                        </div>
+
+                        <!-- Harga Emas Per Gram -->
+                        <div id="goldPriceContainer" style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--border-color);">
+                            <label style="font-weight: 700; color: #666; margin-bottom: 0.5rem; display: block;">
+                                <i class="fas fa-tag" style="margin-right: 0.5rem;"></i>Harga Emas Per Gram (Rp)
+                            </label>
+                                            <input type="number" id="goldPrice" value="900000" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 2px solid var(--secondary-green); font-size: 1rem; color: var(--text-light);" placeholder="Masukkan harga emas per gram">
+                            <small style="color: var(--text-light); margin-top: 0.5rem; display: block;">Saat ini: Rp <span id="goldPriceDisplay">900.000</span>/gram</small>
+                        </div>
+
+                        <!-- Dynamic Form -->
+                        <div id="formContainer">
+                            <!-- Zakat Penghasilan Form -->
+                            <div id="formPenghasilan">
+                                <div style="margin-bottom: 1rem;">
+                                    <label style="font-weight: 700; color: #666; margin-bottom: 0.5rem; display: block;">
+                                        <i class="fas fa-briefcase" style="margin-right: 0.5rem;"></i>Gaji/Penghasilan Utama (Rp)
+                                    </label>
+                                    <input type="number" id="salary" value="0" oninput="updateDisplay()" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 2px solid var(--secondary-green); font-size: 1rem; color: var(--text-light);" placeholder="Masukkan gaji">
+                                </div>
+                                <div style="margin-bottom: 1rem;">
+                                    <label style="font-weight: 700; color: #666; margin-bottom: 0.5rem; display: block;">
+                                        <i class="fas fa-plus" style="margin-right: 0.5rem;"></i>Penghasilan Lain (Rp)
+                                    </label>
+                                    <input type="number" id="otherIncome" value="0" oninput="updateDisplay()" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 2px solid var(--secondary-green); font-size: 1rem; color: var(--text-light);" placeholder="Bonus, komisi, dll">
+                                </div>
+                            </div>
+
+                            <!-- Zakat Emas Form -->
+                            <div id="formEmas" style="display: none;">
+                                <div style="margin-bottom: 1rem;">
+                                    <label style="font-weight: 700; color: #666; margin-bottom: 0.5rem; display: block;">
+                                        <i class="fas fa-ring" style="margin-right: 0.5rem;"></i>Berat Emas (gram)
+                                    </label>
+                                    <input type="number" id="goldWeight" value="0" oninput="updateDisplay()" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 2px solid var(--secondary-green); font-size: 1rem; color: var(--text-light);" placeholder="Masukkan berat emas">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Calculate Button -->
+                        <button onclick="calculateZakat()" style="width: 100%; background: var(--primary-green); color: white; padding: 1rem; border-radius: 8px; border: none; font-weight: 700; font-size: 1rem; cursor: pointer; margin-top: 1rem;">
+                            <i class="fas fa-calculator" style="margin-right: 0.5rem;"></i>Hitung Zakat
+                        </button>
+                    </div>
+
+                    <!-- Result Display -->
+                    <div>
+                        <div id="resultContainer" style="background: white; border-radius: 12px; padding: 2rem; box-shadow: var(--shadow-light); border-left: 4px solid var(--primary-green);">
+                            <h3 style="font-size: 1.3rem; color: var(--primary-green); font-weight: 700; margin-bottom: 1.5rem;">
+                                <i class="fas fa-receipt" style="margin-right: 0.5rem;"></i>Hasil Perhitungan
+                            </h3>
+
+                            <div id="resultContent" style="text-align: center;">
+                                <p style="color: var(--text-light); font-size: 1rem; margin-bottom: 1rem;">Masukkan data untuk menghitung zakat Anda</p>
+                                <i class="fas fa-inbox" style="font-size: 3rem; color: #ccc;"></i>
+                            </div>
+
+                            <div id="zakatResult" style="display: none; margin-top: 1rem;">
+                                <div style="background: var(--primary-cream); padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem;">
+                                    <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 0.5rem;">Jumlah Zakat yang Wajib Dikeluarkan:</p>
+                                    <p id="zakatAmount" style="font-size: 2rem; font-weight: 800; color: var(--primary-green);">Rp 0</p>
+                                </div>
+                                <div id="statusInfo" style="background: #ecfdf5; border-left: 4px solid #10b981; padding: 1rem; border-radius: 8px;">
+                                    <p id="statusMessage" style="color: #10b981; font-weight: 600;">Zakat Wajib Dikeluarkan</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
+        </section>
+
+        <!-- INFO SECTION -->
+        <section style="background: var(--primary-cream); padding: 4rem var(--spacing-md);">
+            <div class="container">
+                <h2 class="section-title">Informasi Penting tentang Zakat</h2>
+                
+                <div class="features-grid">
+                    <div style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: var(--shadow-light); border-left: 4px solid var(--primary-green);">
+                        <h4 style="color: var(--primary-green); font-weight: 700; margin-bottom: 0.5rem;">
+                            <i class="fas fa-coin" style="margin-right: 0.5rem;"></i>Zakat Penghasilan
+                        </h4>
+                        <p style="color: var(--text-light); font-size: 0.9rem;">Dikeluarkan sebesar 2.5% dari penghasilan bersih bulanan ketika telah mencapai nisab minimal selama periode pembayaran.</p>
+                    </div>
+                    <div style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: var(--shadow-light); border-left: 4px solid var(--primary-gold);">
+                        <h4 style="color: var(--primary-gold); font-weight: 700; margin-bottom: 0.5rem;">
+                            <i class="fas fa-ring" style="margin-right: 0.5rem;"></i>Zakat Emas
+                        </h4>
+                        <p style="color: var(--text-light); font-size: 0.9rem;">Dikeluarkan sebesar 2.5% dari total emas yang dimiliki ketika mencapai nisab 85 gram, setelah dimiliki selama 1 tahun.</p>
+                    </div>
+                    <div style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: var(--shadow-light); border-left: 4px solid var(--secondary-green);">
+                        <h4 style="color: var(--secondary-green); font-weight: 700; margin-bottom: 0.5rem;">
+                            <i class="fas fa-check-circle" style="margin-right: 0.5rem;"></i>Nisab Emas
+                        </h4>
+                        <p style="color: var(--text-light); font-size: 0.9rem;">Nisab untuk emas adalah 85 gram. Ketika emas Anda kurang dari 85 gram, zakat emas tidak wajib dikeluarkan.</p>
+                    </div>
+                    <div style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: var(--shadow-light); border-left: 4px solid var(--primary-green);">
+                        <h4 style="color: var(--primary-green); font-weight: 700; margin-bottom: 0.5rem;">
+                            <i class="fas fa-users" style="margin-right: 0.5rem;"></i>Penerima Zakat
+                        </h4>
+                        <p style="color: var(--text-light); font-size: 0.9rem;">Zakat dapat diberikan kepada fakir, miskin, amil zakat, muallaf, budak, orang terlilit hutang, darī fī sabīlillāh, dan ibn al-sabīl.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Ramadhan Portal</h4>
+                    <p>Pusat panduan lengkap ibadah dan doa selama bulan Ramadhan untuk semua umat Muslim.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Menu Navigasi</h4>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="jadwal.html">Jadwal & Doa</a></li>
+                        <li><a href="todo.html">To-Do</a></li>
+                        <li><a href="zakat.html">Zakat</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Hubungi Kami</h4>
+                    <p>Email: info@ramadhanportal.com</p>
+                    <p>Phone: +62 812 3456 7890</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ramadhan Portal. Semua hak dilindungi. Dibuat dengan <i class="fas fa-heart"></i> untuk umat Muslim.</p>
+            </div>
         </div>
+    </footer>
 
-        <!-- Calculate Button -->
-        <button onclick="calculateZakat()" class="w-full mt-8 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold py-3 px-6 rounded-lg transition-all shadow-lg active:scale-95">
-          <i class="fas fa-calculator mr-2"></i>Hitung Zakat
-        </button>
-      </div>
+    <script src="../js/script.js"></script>
+    <script>
+        function updateDisplay() {
+            const goldPrice = parseFloat(document.getElementById('goldPrice').value) || 900000;
+            document.getElementById('goldPriceDisplay').textContent = new Intl.NumberFormat('id-ID').format(goldPrice);
+        }
 
-      <!-- Result Section -->
-      <div class="bg-gradient-to-br from-yellow-50 to-amber-50 rounded-3xl shadow-lg p-8">
-        <h3 class="text-2xl font-bold text-emerald-700 mb-6">
-          <i class="fas fa-chart-pie mr-2"></i>Hasil Perhitungan
-        </h3>
+        function changeZakatType() {
+            const zakatType = document.getElementById('zakatType').value;
+            const formPenghasilan = document.getElementById('formPenghasilan');
+            const formEmas = document.getElementById('formEmas');
+            const goldPriceContainer = document.getElementById('goldPriceContainer');
+            
+            if (zakatType === 'penghasilan') {
+                formPenghasilan.style.display = 'block';
+                formEmas.style.display = 'none';
+                goldPriceContainer.style.display = 'block';
+            } else {
+                formPenghasilan.style.display = 'none';
+                formEmas.style.display = 'block';
+                goldPriceContainer.style.display = 'block';
+            }
 
-        <div id="resultContainer" class="space-y-4">
-          <!-- For Penghasilan: Show Monthly Income and Monthly Nisab -->
-          <div id="monthlyIncomeBox" class="bg-white rounded-xl p-4 border-l-4 border-blue-500">
-            <p class="text-sm text-gray-600">Penghasilan Bulanan Bersih</p>
-            <p class="text-2xl font-bold text-blue-600">Rp <span id="monthlyAmount">0</span></p>
-          </div>
+            document.getElementById('zakatResult').style.display = 'none';
+            document.getElementById('resultContent').style.display = 'block';
+        }
 
-          <div id="monthlyNisabBox" class="bg-white rounded-xl p-4 border-l-4 border-indigo-500 hidden">
-            <p class="text-sm text-gray-600">Nisab Bulanan (85 gram emas ÷ 12 bulan)</p>
-            <p class="text-2xl font-bold text-indigo-600">Rp <span id="monthlyNisabAmount">0</span></p>
-          </div>
+        function calculateZakat() {
+            const zakatType = document.getElementById('zakatType').value;
+            let zakatAmount = 0;
+            let isWajibZakat = false;
+            let message = '';
 
-          <!-- For Emas: Show Total Value -->
-          <div id="totalEmasBox" class="bg-white rounded-xl p-4 border-l-4 border-yellow-500 hidden">
-            <p class="text-sm text-gray-600">Total Nilai Emas</p>
-            <p class="text-2xl font-bold text-yellow-600">Rp <span id="totalAmount">0</span></p>
-          </div>
+            if (zakatType === 'penghasilan') {
+                const goldPrice = parseFloat(document.getElementById('goldPrice').value) || 900000;
+                const salary = parseFloat(document.getElementById('salary').value) || 0;
+                const otherIncome = parseFloat(document.getElementById('otherIncome').value) || 0;
+                const monthlyAmount = salary + otherIncome;
+                const nisabPerMonth = (goldPrice * 85) / 12;
 
-          <!-- Nisab -->
-          <div class="bg-white rounded-xl p-4 border-l-4 border-purple-500">
-            <p class="text-sm text-gray-600" id="nisabLabel">Nilai Nisab (85 gram emas)</p>
-            <p class="text-2xl font-bold text-purple-600">Rp <span id="nisabAmount">0</span></p>
-          </div>
+                if (monthlyAmount >= nisabPerMonth) {
+                    isWajibZakat = true;
+                    zakatAmount = monthlyAmount * 0.025;
+                } else {
+                    isWajibZakat = false;
+                    zakatAmount = 0;
+                }
+            } else {
+                const goldPrice = parseFloat(document.getElementById('goldPrice').value) || 900000;
+                const goldWeight = parseFloat(document.getElementById('goldWeight').value) || 0;
+                const goldValue = goldWeight * goldPrice;
+                const nisab = 85 * goldPrice;
 
-          <!-- Status Zakat -->
-          <div class="bg-white rounded-xl p-4 border-l-4 border-orange-500">
-            <p class="text-sm text-gray-600">Status Kewajiban Zakat</p>
-            <p class="text-xl font-bold">
-              <span id="zakatStatus" class="inline-block px-4 py-2 rounded-full bg-orange-100 text-orange-700">-</span>
-            </p>
-          </div>
+                if (goldWeight >= 85) {
+                    isWajibZakat = true;
+                    zakatAmount = goldValue * 0.025;
+                } else {
+                    isWajibZakat = false;
+                    zakatAmount = 0;
+                }
+            }
 
-          <!-- Zakat Amount -->
-          <div class="bg-gradient-to-r from-green-100 to-emerald-100 rounded-xl p-6 border-2 border-green-500">
-            <p class="text-sm text-gray-700 mb-2" id="zakatLabel">Jumlah Zakat yang Harus Dibayarkan (2,5%)</p>
-            <p class="text-4xl font-bold text-green-700">Rp <span id="zakatAmount">0</span></p>
-          </div>
+            document.getElementById('zakatAmount').textContent = 'Rp ' + new Intl.NumberFormat('id-ID').format(Math.round(zakatAmount));
+            
+            const statusMsg = document.getElementById('statusMessage');
+            const statusInfo = document.getElementById('statusInfo');
+            
+            if (isWajibZakat && zakatAmount > 0) {
+                statusMsg.textContent = '✓ Zakat Wajib Dikeluarkan';
+                statusInfo.style.background = '#e8f5e9';
+                statusInfo.style.borderLeftColor = 'var(--primary-green)';
+                statusMsg.style.color = 'var(--primary-green)';
+            } else {
+                statusMsg.textContent = '⚠️ Zakat Belum Wajib atau Nihil';
+                statusInfo.style.background = '#fef5e7';
+                statusInfo.style.borderLeftColor = 'var(--primary-gold)';
+                statusMsg.style.color = '#b8860b';
+            }
 
-          <!-- Info -->
-          <div class="bg-blue-50 rounded-xl p-4 border-l-4 border-blue-500 mt-6">
-            <p class="text-xs text-gray-700">
-              <strong>Catatan:</strong> Perhitungan ini berdasarkan nisab emas 85 gram dan tarif zakat 2,5%. Konsultasikan dengan imam atau lembaga zakat terpercaya untuk informasi lebih lanjut.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
+            document.getElementById('resultContent').style.display = 'none';
+            document.getElementById('zakatResult').style.display = 'block';
+        }
 
-    <!-- Information Section -->
-    <div class="grid md:grid-cols-2 gap-6 mt-12">
-      <div class="bg-white rounded-2xl p-6 shadow-lg border-t-4 border-emerald-500">
-        <h4 class="text-emerald-700 font-bold text-lg mb-3">
-          <i class="fas fa-info-circle mr-2"></i>Tentang Zakat Penghasilan
-        </h4>
-        <ul class="text-gray-700 text-sm space-y-2">
-          <li>✓ Dikenakan atas penghasilan dari bekerja (gaji, usaha, dll)</li>
-          <li>✓ Nisab Bulanan: 85 gram emas ÷ 12 bulan (~Rp 7.640.144)</li>
-          <li>✓ Tarif zakat: 2,5% dari penghasilan bulanan bersih</li>
-          <li>✓ Dihitung dan dibayarkan setiap bulannya</li>
-          <li>✓ Kondisi: Penghasilan telah mencapai nisab 1 tahun</li>
-        </ul>
-      </div>
-
-      <div class="bg-white rounded-2xl p-6 shadow-lg border-t-4 border-yellow-500">
-        <h4 class="text-emerald-700 font-bold text-lg mb-3">
-          <i class="fas fa-crown mr-2"></i>Tentang Zakat Emas
-        </h4>
-        <ul class="text-gray-700 text-sm space-y-2">
-          <li>✓ Dikenakan atas kepemilikan emas</li>
-          <li>✓ Nisab: 85 gram emas murni</li>
-          <li>✓ Tarif zakat: 2,5% dari jumlah emas</li>
-          <li>✓ Waktu: Setiap tahun (Haul)</li>
-          <li>✓ Catatan: Perhitungan berdasarkan berat, bukan nilai</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Tips Section -->
-    <div class="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-3xl p-8 text-white shadow-xl mt-12">
-      <div class="grid md:grid-cols-3 gap-8">
-        <div class="text-center">
-          <i class="fas fa-check-circle text-4xl mb-3 text-yellow-300"></i>
-          <h5 class="font-bold text-lg mb-2">Mudah Digunakan</h5>
-          <p class="text-emerald-100 text-sm">Isi data Anda dan sistem akan menghitung secara otomatis</p>
-        </div>
-        <div class="text-center">
-          <i class="fas fa-mosque text-4xl mb-3 text-yellow-300"></i>
-          <h5 class="font-bold text-lg mb-2">Sesuai Syariat</h5>
-          <p class="text-emerald-100 text-sm">Berdasarkan rumus zakat Islam yang berlaku umum</p>
-        </div>
-        <div class="text-center">
-          <i class="fas fa-shield-alt text-4xl mb-3 text-yellow-300"></i>
-          <h5 class="font-bold text-lg mb-2">Privat & Aman</h5>
-          <p class="text-emerald-100 text-sm">Data Anda tidak disimpan, hanya proses lokal</p>
-        </div>
-      </div>
-    </div>
-  </section>
-</div>
+        document.addEventListener('DOMContentLoaded', function() {
+            changeZakatType();
+            updateDisplay();
+        });
+    </script>
+</body>
+</html>

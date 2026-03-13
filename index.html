@@ -1,128 +1,237 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kumpulan Doa Ramadhan 2026</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramadhan Portal - Pusat Panduan Ibadah Ramadhan</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-gradient-to-br from-emerald-50 to-amber-50">
+<body>
+    <!-- HEADER & NAVIGATION -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="navbar-container">
+                <div class="navbar-logo">
+                    <a href="index.html">
+                        <i class="fas fa-moon"></i> Ramadhan Portal
+                    </a>
+                </div>
+                <div class="menu-toggle" id="menuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link active">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pages/jadwal.html" class="nav-link">Jadwal Imsakiyah</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pages/doa.html" class="nav-link">Doa Ramadhan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pages/todo.html" class="nav-link">To-Do</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pages/zakat.html" class="nav-link">Zakat</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pages/zikir.html" class="nav-link">Zikir</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#artikel" class="nav-link">Artikel</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
 
-  <!-- Header -->
-  <header class="gradient-header text-white shadow-2xl">
-    <div class="container mx-auto px-4 py-8">
-      <div class="flex items-center justify-between mb-6">
-        <div class="text-center flex-1">
-          <div class="mb-3">
-            <i class="fas fa-moon text-yellow-300 text-4xl"></i>
-          </div>
-          <h1 class="text-3xl md:text-4xl font-bold tracking-tight">
-            Ramadhan 2026
-          </h1>
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <!-- HERO SECTION -->
+        <section class="hero">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1 class="hero-title">Ramadhan Portal</h1>
+                <p class="hero-subtitle">Pusat Panduan Lengkap Ibadah dan Doa Selama Bulan Ramadhan</p>
+                <p class="hero-description">
+                    Selamat datang di Ramadhan Portal, tempat terbaik untuk mendapatkan informasi lengkap tentang jadwal ibadat, doa-doa penting, dan artikel inspiratif selama bulan Ramadhan.
+                </p>
+                <a href="#fitur" class="cta-button">Jelajahi Fitur Kami</a>
+            </div>
+        </section>
+
+        <!-- FEATURES SECTION -->
+        <section class="fitur" id="fitur">
+            <div class="container">
+                <h2 class="section-title">Fitur Utama</h2>
+                <p class="section-subtitle">Semua yang Anda butuhkan untuk pengalaman Ramadhan yang bermakna</p>
+
+                <div class="features-grid">
+                    <!-- CARD: Jadwal Imsakiyah -->
+                    <div class="feature-card">
+                        <div class="card-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>Jadwal Imsakiyah</h3>
+                        <p>Jadwal lengkap waktu imsak dan berbuka untuk setiap hari dalam bulan Ramadhan dengan akurasi tinggi.</p>
+                        <a href="pages/jadwal.html" class="card-button">Lihat Jadwal</a>
+                    </div>
+
+                    <!-- CARD: Doa Ramadhan -->
+                    <div class="feature-card">
+                        <div class="card-icon">
+                            <i class="fas fa-hands-praying"></i>
+                        </div>
+                        <h3>Doa Ramadhan</h3>
+                        <p>Kumpulan doa-doa istimewa untuk setiap hari Ramadhan, doa sahur, doa berbuka, dan doa-doa lainnya yang mulia.</p>
+                        <a href="pages/doa.html" class="card-button">Lihat Doa</a>
+                    </div>
+
+                    <!-- CARD: To-Do Ibadah -->
+                    <div class="feature-card">
+                        <div class="card-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <h3>To-Do Ibadah Harian</h3>
+                        <p>Daftar checklist ibadah harian yang dapat dipantau untuk meningkatkan konsistensi dan disiplin dalam beribadah di Ramadhan.</p>
+                        <a href="pages/todo.html" class="card-button">Lihat To-Do</a>
+                    </div>
+
+                    <!-- CARD: Kalkulator Zakat -->
+                    <div class="feature-card">
+                        <div class="card-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <h3>Kalkulator Zakat</h3>
+                        <p>Hitung kewajiban zakat fitrah dan mal dengan mudah menggunakan kalkulator yang akurat dan sesuai dengan nisab Islamiah.</p>
+                        <a href="pages/zakat.html" class="card-button">Hitung Zakat</a>
+                    </div>
+
+                    <!-- CARD: Artikel Ramadhan -->
+                    <div class="feature-card">
+                        <div class="card-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h3>Artikel Ramadhan</h3>
+                        <p>Artikel-artikel inspiratif dan edukatif tentang makna Ramadhan, amalan terbaik, dan tips kesehatan selama berpuasa.</p>
+                        <a href="#artikel" class="card-button">Baca Artikel</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ARTIKEL SECTION -->
+        <section class="artikel" id="artikel">
+            <div class="container">
+                <h2 class="section-title">Artikel Ramadhan</h2>
+                <p class="section-subtitle">Inspirasi dan Pengetahuan untuk Memperkaya Pengalaman Ibadah Anda</p>
+
+                <div class="artikel-grid">
+                    <article class="artikel-card">
+                        <div class="artikel-image artikel-1"></div>
+                        <div class="artikel-content">
+                            <h3>Makna Sejati Bulan Ramadhan</h3>
+                            <p class="artikel-date">12 Maret 2026</p>
+                            <p>Ramadhan bukan hanya tentang berpuasa, tetapi tentang kerendahan hati, empati, dan pendekatkan diri kepada Tuhan...</p>
+                            <a href="#" class="artikel-link">Baca Selengkapnya →</a>
+                        </div>
+                    </article>
+
+                    <article class="artikel-card">
+                        <div class="artikel-image artikel-2"></div>
+                        <div class="artikel-content">
+                            <h3>Tips Menjaga Kesehatan Saat Puasa</h3>
+                            <p class="artikel-date">10 Maret 2026</p>
+                            <p>Panduan lengkap untuk mempertahankan kesehatan fisik dan mental selama berpuasa, mulai dari nutrisi hingga istirahat...</p>
+                            <a href="#" class="artikel-link">Baca Selengkapnya →</a>
+                        </div>
+                    </article>
+
+                    <article class="artikel-card">
+                        <div class="artikel-image artikel-3"></div>
+                        <div class="artikel-content">
+                            <h3>Manfaat Spiritual Beribadah di Malam Hari</h3>
+                            <p class="artikel-date">8 Maret 2026</p>
+                            <p>Discover kedalaman spiritual praktik malam Ramadhan seperti tarawih dan tahajud untuk pencerahan jiwa...</p>
+                            <a href="#" class="artikel-link">Baca Selengkapnya →</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- INFO SECTION -->
+        <section class="info">
+            <div class="container">
+                <h2 class="section-title">Mengapa Ramadhan Portal?</h2>
+                <div class="info-grid">
+                    <div class="info-box">
+                        <div class="info-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h3>Terpercaya</h3>
+                        <p>Semua informasi telah diverifikasi dan bersumber dari referensi terpercaya</p>
+                    </div>
+                    <div class="info-box">
+                        <div class="info-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>Responsif</h3>
+                        <p>Dapat diakses dengan mudah dari perangkat desktop, tablet, dan mobile</p>
+                    </div>
+                    <div class="info-box">
+                        <div class="info-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>Gratis & Terbuka</h3>
+                        <p>Sepenuhnya gratis digunakan tanpa biaya tersembunyi untuk semua umat</p>
+                    </div>
+                    <div class="info-box">
+                        <div class="info-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3>Mudah Digunakan</h3>
+                        <p>Antarmuka intuitif dan navigasi yang jelas untuk pengalaman pengguna terbaik</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Ramadhan Portal</h4>
+                    <p>Pusat panduan lengkap ibadah dan doa selama bulan Ramadhan untuk semua umat Muslim.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Menu Navigasi</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="pages/jadwal.html">Jadwal Imsakiyah</a></li>
+                        <li><a href="pages/doa.html">Doa Ramadhan</a></li>
+                        <li><a href="pages/todo.html">To-Do Ibadah</a></li>
+                        <li><a href="pages/zakat.html">Hitung Zakat</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Hubungi Kami</h4>
+                    <p>Email: info@ramadhanportal.com</p>
+                    <p>Phone: +62 812 3456 7890</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ramadhan Portal. Semua hak dilindungi. Dibuat dengan <i class="fas fa-heart"></i> untuk umat Muslim.</p>
+            </div>
         </div>
-      </div>
-      
-      <!-- Navigation Menu -->
-      <nav class="flex justify-center gap-3 flex-wrap">
-        <button onclick="navigatePage('doa')" class="nav-btn active px-6 py-2 rounded-full font-semibold transition-all bg-white text-emerald-700 border-2 border-white" id="nav-doa">
-          <i class="fas fa-star mr-2"></i>Doa
-        </button>
-        <button onclick="navigatePage('zikir')" class="nav-btn px-6 py-2 rounded-full font-semibold transition-all bg-emerald-600 text-white border-2 border-white hover:bg-emerald-500" id="nav-zikir">
-          <i class="fas fa-hands-praying mr-2"></i>Hitung Zikir
-        </button>
-        <button onclick="navigatePage('zakat')" class="nav-btn px-6 py-2 rounded-full font-semibold transition-all bg-emerald-600 text-white border-2 border-white hover:bg-emerald-500" id="nav-zakat">
-          <i class="fas fa-coins mr-2"></i>Kalkulator Zakat
-        </button>
-        <button onclick="navigatePage('imsakiyah')" class="nav-btn px-6 py-2 rounded-full font-semibold transition-all bg-emerald-600 text-white border-2 border-white hover:bg-emerald-500" id="nav-imsakiyah">
-          <i class="fas fa-clock mr-2"></i>Jadwal Imsakiyah
-        </button>
-        <button onclick="navigatePage('todo')" class="nav-btn px-6 py-2 rounded-full font-semibold transition-all bg-emerald-600 text-white border-2 border-white hover:bg-emerald-500" id="nav-todo">
-          <i class="fas fa-list-check mr-2"></i>To-Do Ibadah
-        </button>
-      </nav>
-    </div>
-  </header>
+    </footer>
 
-  <!-- Main Content -->
-  <main class="container mx-auto px-4 py-16">
-    <div id="page-container">
-      <!-- Pages will be loaded here -->
-    </div>
-  </main>
-
-  <!-- Footer -->
-  <footer class="gradient-header text-white py-8 mt-20">
-    <div class="container mx-auto px-4">
-      <div class="grid md:grid-cols-3 gap-8 mb-8">
-        <div>
-          <h3 class="font-bold text-lg mb-2">Tentang Aplikasi</h3>
-          <p class="text-emerald-200 text-sm">Aplikasi doa Ramadhan untuk membantu kaum muslimin beribadah dengan khusyuk.</p>
-        </div>
-        <div>
-          <h3 class="font-bold text-lg mb-2">Fitur</h3>
-          <ul class="text-emerald-200 text-sm space-y-1">
-            <li>✓ Doa Sahur & Buka Puasa</li>
-            <li>✓ Jadwal Imsakiyah & Sholat</li>
-            <li>✓ Hitung Zikir Interaktif</li>
-            <li>✓ Kalkulator Zakat Otomatis</li>
-            <li>✓ Desain Responsif</li>
-          </ul>
-        </div>
-        <div>
-          <h3 class="font-bold text-lg mb-2">Dukungan</h3>
-          <p class="text-emerald-200 text-sm mb-3">Bagikan aplikasi ini kepada keluarga dan teman-teman Anda.</p>
-          <button onclick="shareApp()" class="bg-yellow-400 hover:bg-yellow-300 text-emerald-900 px-4 py-2 rounded-lg font-semibold transition-all">
-            <i class="fas fa-share-alt mr-1"></i>Bagikan
-          </button>
-        </div>
-      </div>
-      <div class="border-t border-emerald-400 pt-6 text-center text-emerald-200">
-        <p class="font-semibold mb-2">© 2026 Kumpulan Doa Ramadhan</p>
-        <p class="text-sm">Semoga ibadah dan puasa kita diterima oleh Allah SWT</p>
-        <p class="text-xs mt-3 text-emerald-300">Ramadhan 1447 H — Selamat Menunaikan Ibadah Puasa</p>
-      </div>
-    </div>
-  </footer>
-  <div id="toast" class="toast fixed bottom-6 right-6 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg hidden">
-    <i class="fas fa-check mr-2"></i><span id="toast-message"></span>
-  </div>
-
-  <!-- Scripts -->
-  <script src="js/script.js"></script>
-  <script>
-    // Load pages on page load
-    async function loadPages() {
-      try {
-        // Fetch all pages in parallel
-        const [doaContent, zikirContent, zakatContent, imsakiyahContent, todoContent] = await Promise.all([
-          fetch('pages/doa.html').then(res => res.text()),
-          fetch('pages/zikir.html').then(res => res.text()),
-          fetch('pages/zakat.html').then(res => res.text()),
-          fetch('pages/imsakiyah.html').then(res => res.text()),
-          fetch('pages/todo.html').then(res => res.text())
-        ]);
-        
-        const container = document.getElementById('page-container');
-        container.innerHTML = doaContent + zikirContent + zakatContent + imsakiyahContent + todoContent;
-        
-        // Pre-load cities for Imsakiyah page (fire and forget)
-        console.log('[App] Pre-loading Imsakiyah cities...');
-        ImsakiyahController.loadCitiesIfNeeded().catch(err => {
-          console.warn('[App] Pre-load cities failed (will retry on page access):', err.message);
-        });
-        
-        // Initialize with doa page
-        navigatePage('doa');
-      } catch (error) {
-        console.error('Error loading pages:', error);
-      }
-    }
-
-    // Load pages when DOM is ready
-    document.addEventListener('DOMContentLoaded', loadPages);
-  </script>
-
+    <script src="js/script.js"></script>
 </body>
 </html>

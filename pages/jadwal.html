@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Imsakiyah Ramadhan - Ramadhan Portal</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- HEADER & NAVIGATION -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="navbar-container">
+                <div class="navbar-logo">
+                    <a href="../index.html">
+                        <i class="fas fa-moon"></i> Ramadhan Portal
+                    </a>
+                </div>
+                <div class="menu-toggle" id="menuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li class="nav-item">
+                        <a href="../index.html" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="jadwal.html" class="nav-link active">Jadwal Imsakiyah</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="doa.html" class="nav-link">Doa Ramadhan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="todo.html" class="nav-link">To-Do</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="zakat.html" class="nav-link">Zakat</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="zikir.html" class="nav-link">Zikir</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../index.html#artikel" class="nav-link">Artikel</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <!-- JADWAL HERO SECTION -->
+        <section style="background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%); color: white; padding: 4rem var(--spacing-md) 3rem; text-align: center;">
+            <div style="max-width: 800px; margin: 0 auto;">
+                <h1 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem;"><i class="fas fa-clock" style="color: var(--primary-gold); margin-right: 0.5rem;"></i> Jadwal Imsakiyah Ramadhan</h1>
+                <p style="font-size: 1.1rem; color: rgba(255, 255, 255, 0.95);">Jadwal lengkap 1 bulan Ramadhan dengan waktu optimal untuk ibadah</p>
+            </div>
+        </section>
+
+        <!-- JADWAL SECTION -->
+        <section class="fitur">
+            <div class="container">
+                <h2 class="section-title">Jadwal Imsakiyah Ramadhan 1447 H</h2>
+                
+                <!-- CITY SELECTOR -->
+                <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: var(--shadow-light); margin-bottom: 2rem;">
+                    <label for="citySelect" style="font-weight: 700; color: var(--primary-green); margin-right: 1rem; font-size: 1.05rem;">
+                        <i class="fas fa-map-marker-alt" style="margin-right: 0.5rem;"></i> Pilih Lokasi:
+                    </label>
+                    <select id="citySelect" style="padding: 0.75rem 1rem; border-radius: 8px; border: 2px solid var(--primary-green); font-size: 1rem; font-weight: 600; color: var(--primary-green); cursor: pointer; min-width: 250px;">
+                        <option value="jakarta">Jakarta</option>
+                        <option value="bandung">Bandung</option>
+                        <option value="surabaya">Surabaya</option>
+                        <option value="medan">Medan</option>
+                        <option value="yogyakarta">Yogyakarta</option>
+                        <option value="bali">Bali</option>
+                    </select>
+                </div>
+
+                <!-- JADWAL TABLE -->
+                <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-light); overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%); color: white;">
+                                <th style="padding: 1.2rem; text-align: left; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;">Hari</th>
+                                <th style="padding: 1.2rem; text-align: center; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;">Tanggal</th>
+                                <th style="padding: 1.2rem; text-align: center; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;">Imsak</th>
+                                <th style="padding: 1.2rem; text-align: center; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;">Subuh</th>
+                                <th style="padding: 1.2rem; text-align: center; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;">Dzuhur</th>
+                                <th style="padding: 1.2rem; text-align: center; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;">Ashar</th>
+                                <th style="padding: 1.2rem; text-align: center; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;">Berbuka</th>
+                                <th style="padding: 1.2rem; text-align: center; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;">Maghrib</th>
+                                <th style="padding: 1.2rem; text-align: center; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;">Isya</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scheduleTable">
+                            <!-- Diisi oleh JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- INFO LEGEND -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-top: 2rem;">
+                    <div style="background: linear-gradient(135deg, #047857, #065f46); color: white; padding: 1rem; border-radius: 8px; text-align: center; font-size: 0.9rem;">
+                        <i class="fas fa-moon-stars" style="font-size: 1.5rem; display: block; margin-bottom: 0.5rem;"></i>
+                        <strong>Imsak</strong>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #1e40af, #1e3a8a); color: white; padding: 1rem; border-radius: 8px; text-align: center; font-size: 0.9rem;">
+                        <i class="fas fa-sun" style="font-size: 1.5rem; display: block; margin-bottom: 0.5rem;"></i>
+                        <strong>Subuh</strong>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #b45309, #a16207); color: white; padding: 1rem; border-radius: 8px; text-align: center; font-size: 0.9rem;">
+                        <i class="fas fa-sun-plant-wilt" style="font-size: 1.5rem; display: block; margin-bottom: 0.5rem;"></i>
+                        <strong>Dzuhur</strong>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #c2410c, #b45309); color: white; padding: 1rem; border-radius: 8px; text-align: center; font-size: 0.9rem;">
+                        <i class="fas fa-cloud-sun" style="font-size: 1.5rem; display: block; margin-bottom: 0.5rem;"></i>
+                        <strong>Ashar</strong>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #dc2626, #b91c1c); color: white; padding: 1rem; border-radius: 8px; text-align: center; font-size: 0.9rem;">
+                        <i class="fas fa-utensils" style="font-size: 1.5rem; display: block; margin-bottom: 0.5rem;"></i>
+                        <strong>Berbuka</strong>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #7c2d12, #5b21b6); color: white; padding: 1rem; border-radius: 8px; text-align: center; font-size: 0.9rem;">
+                        <i class="fas fa-mosque" style="font-size: 1.5rem; display: block; margin-bottom: 0.5rem;"></i>
+                        <strong>Maghrib</strong>
+                    </div>
+                </div>
+            </div>
+        <!-- DOA SECTION -->
+        <!-- Doa-doa telah dipindahkan ke halaman terpisah: doa.html -->
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Ramadhan Portal</h4>
+                    <p>Pusat panduan lengkap ibadah dan doa selama bulan Ramadhan untuk semua umat Muslim.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Menu Navigasi</h4>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="jadwal.html">Jadwal Imsakiyah</a></li>
+                        <li><a href="doa.html">Doa Ramadhan</a></li>
+                        <li><a href="todo.html">To-Do</a></li>
+                        <li><a href="zakat.html">Zakat</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Hubungi Kami</h4>
+                    <p>Email: info@ramadhanportal.com</p>
+                    <p>Phone: +62 812 3456 7890</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ramadhan Portal. Semua hak dilindungi. Dibuat dengan <i class="fas fa-heart"></i> untuk umat Muslim.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/script.js"></script>
+</body>
+</html>

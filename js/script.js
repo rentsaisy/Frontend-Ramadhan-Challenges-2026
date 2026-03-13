@@ -1,31 +1,68 @@
-// ============ PAGE NAVIGATION ============
-function navigatePage(page) {
-  // Hide all pages
-  document.querySelectorAll('.page-content').forEach(el => {
-    el.classList.add('hidden');
-  });
+/* ============================================
+   RAMADHAN PORTAL - JAVASCRIPT
+   ============================================ */
 
-  // Show selected page
-  const targetPage = document.getElementById(`page-${page}`);
-  if (targetPage) {
-    targetPage.classList.remove('hidden');
-  }
+// ============================================
+// NAVBAR FUNCTIONALITY
+// ============================================
 
-  // Update navigation buttons
-  document.querySelectorAll('.nav-btn').forEach(btn => {
-    btn.classList.remove('active', 'bg-white', 'text-emerald-700');
-    btn.classList.add('bg-emerald-600', 'text-white');
-  });
-  
-  const activeBtn = document.getElementById(`nav-${page}`);
-  if (activeBtn) {
-    activeBtn.classList.remove('bg-emerald-600', 'text-white');
-    activeBtn.classList.add('active', 'bg-white', 'text-emerald-700');
-  }
-
-  // Smooth scroll to top
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+document.addEventListener('DOMContentLoaded', function() {
+    // Get elements
+    const menuToggle = document.getElementById('menuToggle');
+    const navMenu = document.getElementById('navMenu');
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    // Get current page filename
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    
+    // Set active link based on current page
+    navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        
+        // Handle different page paths
+        if ((currentPage === 'index.html' && href === 'index.html') ||
+            (currentPage === 'index.html' && href === './index.html') ||
+            (!currentPage && href === 'index.html')) {
+            link.classList.add('active');
+        } else if ((currentPage === 'jadwal.html' && href === 'pages/jadwal.html') ||
+                   (currentPage === 'jadwal.html' && href.includes('jadwal'))) {
+            link.classList.add('active');
+        } else if ((currentPage === 'doa.html' && href === 'pages/doa.html') ||
+                   (currentPage === 'doa.html' && href.includes('doa'))) {
+            link.classList.add('active');
+        } else if ((currentPage === 'doa-sahur-buka.html' && href === 'pages/doa-sahur-buka.html') ||
+                   (currentPage === 'doa-sahur-buka.html' && href.includes('doa-sahur-buka'))) {
+            link.classList.add('active');
+        }
+    });
+    
+    // Toggle mobile menu
+    if (menuToggle) {
+        menuToggle.addEventListener('click', function() {
+            menuToggle.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+    }
+    
+    // Close mobile menu when a link is clicked
+    navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            menuToggle.classList.remove('active');
+            navMenu.classList.remove('active');
+        });
+    });
+    
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+        const isClickInsideMenu = navMenu.contains(event.target);
+        const isClickOnToggle = menuToggle.contains(event.target);
+        
+        if (!isClickInsideMenu && !isClickOnToggle && navMenu.classList.contains('active')) {
+            menuToggle.classList.remove('active');
+            navMenu.classList.remove('active');
+        }
+    });
+});
 
 // ============ HITUNG ZIKIR FUNCTIONALITY ============
 let counter = 0;
@@ -728,6 +765,299 @@ const ImsakiyahController = {
     const errorMessage = document.getElementById('error-message');
     if (errorState && errorMessage) {
       errorMessage.textContent = message || 'Silahkan coba memilih kota lain atau periksa koneksi internet Anda';
+}
+
+// ============ JADWAL IMSAKIYAH WITH CITY SELECTOR ============
+// Ramadhan schedule data for different Indonesian cities
+const ramadhanSchedules = {
+  jakarta: {
+    city: 'Jakarta',
+    dates: [
+      {day: 'Senin', date: 1, imsak: '03:47', subuh: '04:05', dzuhur: '11:57', ashar: '15:35', berbuka: '17:45', maghrib: '18:15', isya: '19:32'},
+      {day: 'Selasa', date: 2, imsak: '03:45', subuh: '04:03', dzuhur: '11:58', ashar: '15:36', berbuka: '17:46', maghrib: '18:16', isya: '19:33'},
+      {day: 'Rabu', date: 3, imsak: '03:43', subuh: '04:01', dzuhur: '11:58', ashar: '15:36', berbuka: '17:47', maghrib: '18:17', isya: '19:34'},
+      {day: 'Kamis', date: 4, imsak: '03:41', subuh: '03:59', dzuhur: '11:59', ashar: '15:37', berbuka: '17:48', maghrib: '18:18', isya: '19:35'},
+      {day: 'Jumat', date: 5, imsak: '03:39', subuh: '03:57', dzuhur: '12:00', ashar: '15:38', berbuka: '17:49', maghrib: '18:19', isya: '19:36'},
+      {day: 'Sabtu', date: 6, imsak: '03:37', subuh: '03:55', dzuhur: '12:00', ashar: '15:38', berbuka: '17:50', maghrib: '18:20', isya: '19:37'},
+      {day: 'Minggu', date: 7, imsak: '03:35', subuh: '03:53', dzuhur: '12:01', ashar: '15:39', berbuka: '17:51', maghrib: '18:21', isya: '19:38'},
+      {day: 'Senin', date: 8, imsak: '03:33', subuh: '03:51', dzuhur: '12:02', ashar: '15:40', berbuka: '17:52', maghrib: '18:22', isya: '19:39'},
+      {day: 'Selasa', date: 9, imsak: '03:31', subuh: '03:49', dzuhur: '12:02', ashar: '15:40', berbuka: '17:53', maghrib: '18:23', isya: '19:40'},
+      {day: 'Rabu', date: 10, imsak: '03:29', subuh: '03:47', dzuhur: '12:03', ashar: '15:41', berbuka: '17:54', maghrib: '18:24', isya: '19:41'},
+      {day: 'Kamis', date: 11, imsak: '03:27', subuh: '03:45', dzuhur: '12:04', ashar: '15:42', berbuka: '17:55', maghrib: '18:25', isya: '19:42'},
+      {day: 'Jumat', date: 12, imsak: '03:25', subuh: '03:43', dzuhur: '12:04', ashar: '15:42', berbuka: '17:56', maghrib: '18:26', isya: '19:43'},
+      {day: 'Sabtu', date: 13, imsak: '03:23', subuh: '03:41', dzuhur: '12:05', ashar: '15:43', berbuka: '17:57', maghrib: '18:27', isya: '19:44'},
+      {day: 'Minggu', date: 14, imsak: '03:21', subuh: '03:39', dzuhur: '12:06', ashar: '15:44', berbuka: '17:58', maghrib: '18:28', isya: '19:45'},
+      {day: 'Senin', date: 15, imsak: '03:19', subuh: '03:37', dzuhur: '12:06', ashar: '15:44', berbuka: '17:59', maghrib: '18:29', isya: '19:46'},
+      {day: 'Selasa', date: 16, imsak: '03:17', subuh: '03:35', dzuhur: '12:07', ashar: '15:45', berbuka: '18:00', maghrib: '18:30', isya: '19:47'},
+      {day: 'Rabu', date: 17, imsak: '03:15', subuh: '03:33', dzuhur: '12:08', ashar: '15:46', berbuka: '18:01', maghrib: '18:31', isya: '19:48'},
+      {day: 'Kamis', date: 18, imsak: '03:13', subuh: '03:31', dzuhur: '12:08', ashar: '15:46', berbuka: '18:02', maghrib: '18:32', isya: '19:49'},
+      {day: 'Jumat', date: 19, imsak: '03:11', subuh: '03:29', dzuhur: '12:09', ashar: '15:47', berbuka: '18:03', maghrib: '18:33', isya: '19:50'},
+      {day: 'Sabtu', date: 20, imsak: '03:09', subuh: '03:27', dzuhur: '12:10', ashar: '15:48', berbuka: '18:04', maghrib: '18:34', isya: '19:51'},
+      {day: 'Minggu', date: 21, imsak: '03:07', subuh: '03:25', dzuhur: '12:10', ashar: '15:48', berbuka: '18:05', maghrib: '18:35', isya: '19:52'},
+      {day: 'Senin', date: 22, imsak: '03:05', subuh: '03:23', dzuhur: '12:11', ashar: '15:49', berbuka: '18:06', maghrib: '18:36', isya: '19:53'},
+      {day: 'Selasa', date: 23, imsak: '03:03', subuh: '03:21', dzuhur: '12:12', ashar: '15:50', berbuka: '18:07', maghrib: '18:37', isya: '19:54'},
+      {day: 'Rabu', date: 24, imsak: '03:01', subuh: '03:19', dzuhur: '12:12', ashar: '15:50', berbuka: '18:08', maghrib: '18:38', isya: '19:55'},
+      {day: 'Kamis', date: 25, imsak: '02:59', subuh: '03:17', dzuhur: '12:13', ashar: '15:51', berbuka: '18:09', maghrib: '18:39', isya: '19:56'},
+      {day: 'Jumat', date: 26, imsak: '02:57', subuh: '03:15', dzuhur: '12:14', ashar: '15:52', berbuka: '18:10', maghrib: '18:40', isya: '19:57'},
+      {day: 'Sabtu', date: 27, imsak: '02:55', subuh: '03:13', dzuhur: '12:14', ashar: '15:52', berbuka: '18:11', maghrib: '18:41', isya: '19:58'},
+      {day: 'Minggu', date: 28, imsak: '02:53', subuh: '03:11', dzuhur: '12:15', ashar: '15:53', berbuka: '18:12', maghrib: '18:42', isya: '19:59'},
+      {day: 'Senin', date: 29, imsak: '02:51', subuh: '03:09', dzuhur: '12:16', ashar: '15:54', berbuka: '18:13', maghrib: '18:43', isya: '20:00'},
+      {day: 'Selasa', date: 30, imsak: '02:49', subuh: '03:07', dzuhur: '12:16', ashar: '15:54', berbuka: '18:14', maghrib: '18:44', isya: '20:01'}
+    ]
+  },
+  bandung: {
+    city: 'Bandung',
+    dates: [
+      {day: 'Senin', date: 1, imsak: '03:48', subuh: '04:06', dzuhur: '11:56', ashar: '15:33', berbuka: '17:44', maghrib: '18:14', isya: '19:31'},
+      {day: 'Selasa', date: 2, imsak: '03:46', subuh: '04:04', dzuhur: '11:57', ashar: '15:34', berbuka: '17:45', maghrib: '18:15', isya: '19:32'},
+      {day: 'Rabu', date: 3, imsak: '03:44', subuh: '04:02', dzuhur: '11:57', ashar: '15:34', berbuka: '17:46', maghrib: '18:16', isya: '19:33'},
+      {day: 'Kamis', date: 4, imsak: '03:42', subuh: '04:00', dzuhur: '11:58', ashar: '15:35', berbuka: '17:47', maghrib: '18:17', isya: '19:34'},
+      {day: 'Jumat', date: 5, imsak: '03:40', subuh: '03:58', dzuhur: '11:59', ashar: '15:36', berbuka: '17:48', maghrib: '18:18', isya: '19:35'},
+      {day: 'Sabtu', date: 6, imsak: '03:38', subuh: '03:56', dzuhur: '11:59', ashar: '15:36', berbuka: '17:49', maghrib: '18:19', isya: '19:36'},
+      {day: 'Minggu', date: 7, imsak: '03:36', subuh: '03:54', dzuhur: '12:00', ashar: '15:37', berbuka: '17:50', maghrib: '18:20', isya: '19:37'},
+      {day: 'Senin', date: 8, imsak: '03:34', subuh: '03:52', dzuhur: '12:01', ashar: '15:38', berbuka: '17:51', maghrib: '18:21', isya: '19:38'},
+      {day: 'Selasa', date: 9, imsak: '03:32', subuh: '03:50', dzuhur: '12:01', ashar: '15:38', berbuka: '17:52', maghrib: '18:22', isya: '19:39'},
+      {day: 'Rabu', date: 10, imsak: '03:30', subuh: '03:48', dzuhur: '12:02', ashar: '15:39', berbuka: '17:53', maghrib: '18:23', isya: '19:40'},
+      {day: 'Kamis', date: 11, imsak: '03:28', subuh: '03:46', dzuhur: '12:03', ashar: '15:40', berbuka: '17:54', maghrib: '18:24', isya: '19:41'},
+      {day: 'Jumat', date: 12, imsak: '03:26', subuh: '03:44', dzuhur: '12:03', ashar: '15:40', berbuka: '17:55', maghrib: '18:25', isya: '19:42'},
+      {day: 'Sabtu', date: 13, imsak: '03:24', subuh: '03:42', dzuhur: '12:04', ashar: '15:41', berbuka: '17:56', maghrib: '18:26', isya: '19:43'},
+      {day: 'Minggu', date: 14, imsak: '03:22', subuh: '03:40', dzuhur: '12:05', ashar: '15:42', berbuka: '17:57', maghrib: '18:27', isya: '19:44'},
+      {day: 'Senin', date: 15, imsak: '03:20', subuh: '03:38', dzuhur: '12:05', ashar: '15:42', berbuka: '17:58', maghrib: '18:28', isya: '19:45'},
+      {day: 'Selasa', date: 16, imsak: '03:18', subuh: '03:36', dzuhur: '12:06', ashar: '15:43', berbuka: '17:59', maghrib: '18:29', isya: '19:46'},
+      {day: 'Rabu', date: 17, imsak: '03:16', subuh: '03:34', dzuhur: '12:07', ashar: '15:44', berbuka: '18:00', maghrib: '18:30', isya: '19:47'},
+      {day: 'Kamis', date: 18, imsak: '03:14', subuh: '03:32', dzuhur: '12:07', ashar: '15:44', berbuka: '18:01', maghrib: '18:31', isya: '19:48'},
+      {day: 'Jumat', date: 19, imsak: '03:12', subuh: '03:30', dzuhur: '12:08', ashar: '15:45', berbuka: '18:02', maghrib: '18:32', isya: '19:49'},
+      {day: 'Sabtu', date: 20, imsak: '03:10', subuh: '03:28', dzuhur: '12:09', ashar: '15:46', berbuka: '18:03', maghrib: '18:33', isya: '19:50'},
+      {day: 'Minggu', date: 21, imsak: '03:08', subuh: '03:26', dzuhur: '12:09', ashar: '15:46', berbuka: '18:04', maghrib: '18:34', isya: '19:51'},
+      {day: 'Senin', date: 22, imsak: '03:06', subuh: '03:24', dzuhur: '12:10', ashar: '15:47', berbuka: '18:05', maghrib: '18:35', isya: '19:52'},
+      {day: 'Selasa', date: 23, imsak: '03:04', subuh: '03:22', dzuhur: '12:11', ashar: '15:48', berbuka: '18:06', maghrib: '18:36', isya: '19:53'},
+      {day: 'Rabu', date: 24, imsak: '03:02', subuh: '03:20', dzuhur: '12:11', ashar: '15:48', berbuka: '18:07', maghrib: '18:37', isya: '19:54'},
+      {day: 'Kamis', date: 25, imsak: '03:00', subuh: '03:18', dzuhur: '12:12', ashar: '15:49', berbuka: '18:08', maghrib: '18:38', isya: '19:55'},
+      {day: 'Jumat', date: 26, imsak: '02:58', subuh: '03:16', dzuhur: '12:13', ashar: '15:50', berbuka: '18:09', maghrib: '18:39', isya: '19:56'},
+      {day: 'Sabtu', date: 27, imsak: '02:56', subuh: '03:14', dzuhur: '12:13', ashar: '15:50', berbuka: '18:10', maghrib: '18:40', isya: '19:57'},
+      {day: 'Minggu', date: 28, imsak: '02:54', subuh: '03:12', dzuhur: '12:14', ashar: '15:51', berbuka: '18:11', maghrib: '18:41', isya: '19:58'},
+      {day: 'Senin', date: 29, imsak: '02:52', subuh: '03:10', dzuhur: '12:15', ashar: '15:52', berbuka: '18:12', maghrib: '18:42', isya: '19:59'},
+      {day: 'Selasa', date: 30, imsak: '02:50', subuh: '03:08', dzuhur: '12:15', ashar: '15:52', berbuka: '18:13', maghrib: '18:43', isya: '20:00'}
+    ]
+  },
+  surabaya: {
+    city: 'Surabaya',
+    dates: [
+      {day: 'Senin', date: 1, imsak: '03:52', subuh: '04:10', dzuhur: '12:01', ashar: '15:40', berbuka: '17:50', maghrib: '18:20', isya: '19:37'},
+      {day: 'Selasa', date: 2, imsak: '03:50', subuh: '04:08', dzuhur: '12:02', ashar: '15:41', berbuka: '17:51', maghrib: '18:21', isya: '19:38'},
+      {day: 'Rabu', date: 3, imsak: '03:48', subuh: '04:06', dzuhur: '12:02', ashar: '15:41', berbuka: '17:52', maghrib: '18:22', isya: '19:39'},
+      {day: 'Kamis', date: 4, imsak: '03:46', subuh: '04:04', dzuhur: '12:03', ashar: '15:42', berbuka: '17:53', maghrib: '18:23', isya: '19:40'},
+      {day: 'Jumat', date: 5, imsak: '03:44', subuh: '04:02', dzuhur: '12:04', ashar: '15:43', berbuka: '17:54', maghrib: '18:24', isya: '19:41'},
+      {day: 'Sabtu', date: 6, imsak: '03:42', subuh: '04:00', dzuhur: '12:04', ashar: '15:43', berbuka: '17:55', maghrib: '18:25', isya: '19:42'},
+      {day: 'Minggu', date: 7, imsak: '03:40', subuh: '03:58', dzuhur: '12:05', ashar: '15:44', berbuka: '17:56', maghrib: '18:26', isya: '19:43'},
+      {day: 'Senin', date: 8, imsak: '03:38', subuh: '03:56', dzuhur: '12:06', ashar: '15:45', berbuka: '17:57', maghrib: '18:27', isya: '19:44'},
+      {day: 'Selasa', date: 9, imsak: '03:36', subuh: '03:54', dzuhur: '12:06', ashar: '15:45', berbuka: '17:58', maghrib: '18:28', isya: '19:45'},
+      {day: 'Rabu', date: 10, imsak: '03:34', subuh: '03:52', dzuhur: '12:07', ashar: '15:46', berbuka: '17:59', maghrib: '18:29', isya: '19:46'},
+      {day: 'Kamis', date: 11, imsak: '03:32', subuh: '03:50', dzuhur: '12:08', ashar: '15:47', berbuka: '18:00', maghrib: '18:30', isya: '19:47'},
+      {day: 'Jumat', date: 12, imsak: '03:30', subuh: '03:48', dzuhur: '12:08', ashar: '15:47', berbuka: '18:01', maghrib: '18:31', isya: '19:48'},
+      {day: 'Sabtu', date: 13, imsak: '03:28', subuh: '03:46', dzuhur: '12:09', ashar: '15:48', berbuka: '18:02', maghrib: '18:32', isya: '19:49'},
+      {day: 'Minggu', date: 14, imsak: '03:26', subuh: '03:44', dzuhur: '12:10', ashar: '15:49', berbuka: '18:03', maghrib: '18:33', isya: '19:50'},
+      {day: 'Senin', date: 15, imsak: '03:24', subuh: '03:42', dzuhur: '12:10', ashar: '15:49', berbuka: '18:04', maghrib: '18:34', isya: '19:51'},
+      {day: 'Selasa', date: 16, imsak: '03:22', subuh: '03:40', dzuhur: '12:11', ashar: '15:50', berbuka: '18:05', maghrib: '18:35', isya: '19:52'},
+      {day: 'Rabu', date: 17, imsak: '03:20', subuh: '03:38', dzuhur: '12:12', ashar: '15:51', berbuka: '18:06', maghrib: '18:36', isya: '19:53'},
+      {day: 'Kamis', date: 18, imsak: '03:18', subuh: '03:36', dzuhur: '12:12', ashar: '15:51', berbuka: '18:07', maghrib: '18:37', isya: '19:54'},
+      {day: 'Jumat', date: 19, imsak: '03:16', subuh: '03:34', dzuhur: '12:13', ashar: '15:52', berbuka: '18:08', maghrib: '18:38', isya: '19:55'},
+      {day: 'Sabtu', date: 20, imsak: '03:14', subuh: '03:32', dzuhur: '12:14', ashar: '15:53', berbuka: '18:09', maghrib: '18:39', isya: '19:56'},
+      {day: 'Minggu', date: 21, imsak: '03:12', subuh: '03:30', dzuhur: '12:14', ashar: '15:53', berbuka: '18:10', maghrib: '18:40', isya: '19:57'},
+      {day: 'Senin', date: 22, imsak: '03:10', subuh: '03:28', dzuhur: '12:15', ashar: '15:54', berbuka: '18:11', maghrib: '18:41', isya: '19:58'},
+      {day: 'Selasa', date: 23, imsak: '03:08', subuh: '03:26', dzuhur: '12:16', ashar: '15:55', berbuka: '18:12', maghrib: '18:42', isya: '19:59'},
+      {day: 'Rabu', date: 24, imsak: '03:06', subuh: '03:24', dzuhur: '12:16', ashar: '15:55', berbuka: '18:13', maghrib: '18:43', isya: '20:00'},
+      {day: 'Kamis', date: 25, imsak: '03:04', subuh: '03:22', dzuhur: '12:17', ashar: '15:56', berbuka: '18:14', maghrib: '18:44', isya: '20:01'},
+      {day: 'Jumat', date: 26, imsak: '03:02', subuh: '03:20', dzuhur: '12:18', ashar: '15:57', berbuka: '18:15', maghrib: '18:45', isya: '20:02'},
+      {day: 'Sabtu', date: 27, imsak: '03:00', subuh: '03:18', dzuhur: '12:18', ashar: '15:57', berbuka: '18:16', maghrib: '18:46', isya: '20:03'},
+      {day: 'Minggu', date: 28, imsak: '02:58', subuh: '03:16', dzuhur: '12:19', ashar: '15:58', berbuka: '18:17', maghrib: '18:47', isya: '20:04'},
+      {day: 'Senin', date: 29, imsak: '02:56', subuh: '03:14', dzuhur: '12:20', ashar: '15:59', berbuka: '18:18', maghrib: '18:48', isya: '20:05'},
+      {day: 'Selasa', date: 30, imsak: '02:54', subuh: '03:12', dzuhur: '12:20', ashar: '15:59', berbuka: '18:19', maghrib: '18:49', isya: '20:06'}
+    ]
+  },
+  medan: {
+    city: 'Medan',
+    dates: [
+      {day: 'Senin', date: 1, imsak: '04:02', subuh: '04:20', dzuhur: '12:04', ashar: '15:38', berbuka: '18:00', maghrib: '18:30', isya: '19:47'},
+      {day: 'Selasa', date: 2, imsak: '04:00', subuh: '04:18', dzuhur: '12:05', ashar: '15:39', berbuka: '18:01', maghrib: '18:31', isya: '19:48'},
+      {day: 'Rabu', date: 3, imsak: '03:58', subuh: '04:16', dzuhur: '12:05', ashar: '15:39', berbuka: '18:02', maghrib: '18:32', isya: '19:49'},
+      {day: 'Kamis', date: 4, imsak: '03:56', subuh: '04:14', dzuhur: '12:06', ashar: '15:40', berbuka: '18:03', maghrib: '18:33', isya: '19:50'},
+      {day: 'Jumat', date: 5, imsak: '03:54', subuh: '04:12', dzuhur: '12:07', ashar: '15:41', berbuka: '18:04', maghrib: '18:34', isya: '19:51'},
+      {day: 'Sabtu', date: 6, imsak: '03:52', subuh: '04:10', dzuhur: '12:07', ashar: '15:41', berbuka: '18:05', maghrib: '18:35', isya: '19:52'},
+      {day: 'Minggu', date: 7, imsak: '03:50', subuh: '04:08', dzuhur: '12:08', ashar: '15:42', berbuka: '18:06', maghrib: '18:36', isya: '19:53'},
+      {day: 'Senin', date: 8, imsak: '03:48', subuh: '04:06', dzuhur: '12:09', ashar: '15:43', berbuka: '18:07', maghrib: '18:37', isya: '19:54'},
+      {day: 'Selasa', date: 9, imsak: '03:46', subuh: '04:04', dzuhur: '12:09', ashar: '15:43', berbuka: '18:08', maghrib: '18:38', isya: '19:55'},
+      {day: 'Rabu', date: 10, imsak: '03:44', subuh: '04:02', dzuhur: '12:10', ashar: '15:44', berbuka: '18:09', maghrib: '18:39', isya: '19:56'},
+      {day: 'Kamis', date: 11, imsak: '03:42', subuh: '04:00', dzuhur: '12:11', ashar: '15:45', berbuka: '18:10', maghrib: '18:40', isya: '19:57'},
+      {day: 'Jumat', date: 12, imsak: '03:40', subuh: '03:58', dzuhur: '12:11', ashar: '15:45', berbuka: '18:11', maghrib: '18:41', isya: '19:58'},
+      {day: 'Sabtu', date: 13, imsak: '03:38', subuh: '03:56', dzuhur: '12:12', ashar: '15:46', berbuka: '18:12', maghrib: '18:42', isya: '19:59'},
+      {day: 'Minggu', date: 14, imsak: '03:36', subuh: '03:54', dzuhur: '12:13', ashar: '15:47', berbuka: '18:13', maghrib: '18:43', isya: '20:00'},
+      {day: 'Senin', date: 15, imsak: '03:34', subuh: '03:52', dzuhur: '12:13', ashar: '15:47', berbuka: '18:14', maghrib: '18:44', isya: '20:01'},
+      {day: 'Selasa', date: 16, imsak: '03:32', subuh: '03:50', dzuhur: '12:14', ashar: '15:48', berbuka: '18:15', maghrib: '18:45', isya: '20:02'},
+      {day: 'Rabu', date: 17, imsak: '03:30', subuh: '03:48', dzuhur: '12:15', ashar: '15:49', berbuka: '18:16', maghrib: '18:46', isya: '20:03'},
+      {day: 'Kamis', date: 18, imsak: '03:28', subuh: '03:46', dzuhur: '12:15', ashar: '15:49', berbuka: '18:17', maghrib: '18:47', isya: '20:04'},
+      {day: 'Jumat', date: 19, imsak: '03:26', subuh: '03:44', dzuhur: '12:16', ashar: '15:50', berbuka: '18:18', maghrib: '18:48', isya: '20:05'},
+      {day: 'Sabtu', date: 20, imsak: '03:24', subuh: '03:42', dzuhur: '12:17', ashar: '15:51', berbuka: '18:19', maghrib: '18:49', isya: '20:06'},
+      {day: 'Minggu', date: 21, imsak: '03:22', subuh: '03:40', dzuhur: '12:17', ashar: '15:51', berbuka: '18:20', maghrib: '18:50', isya: '20:07'},
+      {day: 'Senin', date: 22, imsak: '03:20', subuh: '03:38', dzuhur: '12:18', ashar: '15:52', berbuka: '18:21', maghrib: '18:51', isya: '20:08'},
+      {day: 'Selasa', date: 23, imsak: '03:18', subuh: '03:36', dzuhur: '12:19', ashar: '15:53', berbuka: '18:22', maghrib: '18:52', isya: '20:09'},
+      {day: 'Rabu', date: 24, imsak: '03:16', subuh: '03:34', dzuhur: '12:19', ashar: '15:53', berbuka: '18:23', maghrib: '18:53', isya: '20:10'},
+      {day: 'Kamis', date: 25, imsak: '03:14', subuh: '03:32', dzuhur: '12:20', ashar: '15:54', berbuka: '18:24', maghrib: '18:54', isya: '20:11'},
+      {day: 'Jumat', date: 26, imsak: '03:12', subuh: '03:30', dzuhur: '12:21', ashar: '15:55', berbuka: '18:25', maghrib: '18:55', isya: '20:12'},
+      {day: 'Sabtu', date: 27, imsak: '03:10', subuh: '03:28', dzuhur: '12:21', ashar: '15:55', berbuka: '18:26', maghrib: '18:56', isya: '20:13'},
+      {day: 'Minggu', date: 28, imsak: '03:08', subuh: '03:26', dzuhur: '12:22', ashar: '15:56', berbuka: '18:27', maghrib: '18:57', isya: '20:14'},
+      {day: 'Senin', date: 29, imsak: '03:06', subuh: '03:24', dzuhur: '12:23', ashar: '15:57', berbuka: '18:28', maghrib: '18:58', isya: '20:15'},
+      {day: 'Selasa', date: 30, imsak: '03:04', subuh: '03:22', dzuhur: '12:23', ashar: '15:57', berbuka: '18:29', maghrib: '18:59', isya: '20:16'}
+    ]
+  },
+  yogyakarta: {
+    city: 'Yogyakarta',
+    dates: [
+      {day: 'Senin', date: 1, imsak: '03:54', subuh: '04:12', dzuhur: '12:02', ashar: '15:36', berbuka: '17:47', maghrib: '18:17', isya: '19:34'},
+      {day: 'Selasa', date: 2, imsak: '03:52', subuh: '04:10', dzuhur: '12:03', ashar: '15:37', berbuka: '17:48', maghrib: '18:18', isya: '19:35'},
+      {day: 'Rabu', date: 3, imsak: '03:50', subuh: '04:08', dzuhur: '12:03', ashar: '15:37', berbuka: '17:49', maghrib: '18:19', isya: '19:36'},
+      {day: 'Kamis', date: 4, imsak: '03:48', subuh: '04:06', dzuhur: '12:04', ashar: '15:38', berbuka: '17:50', maghrib: '18:20', isya: '19:37'},
+      {day: 'Jumat', date: 5, imsak: '03:46', subuh: '04:04', dzuhur: '12:05', ashar: '15:39', berbuka: '17:51', maghrib: '18:21', isya: '19:38'},
+      {day: 'Sabtu', date: 6, imsak: '03:44', subuh: '04:02', dzuhur: '12:05', ashar: '15:39', berbuka: '17:52', maghrib: '18:22', isya: '19:39'},
+      {day: 'Minggu', date: 7, imsak: '03:42', subuh: '04:00', dzuhur: '12:06', ashar: '15:40', berbuka: '17:53', maghrib: '18:23', isya: '19:40'},
+      {day: 'Senin', date: 8, imsak: '03:40', subuh: '03:58', dzuhur: '12:07', ashar: '15:41', berbuka: '17:54', maghrib: '18:24', isya: '19:41'},
+      {day: 'Selasa', date: 9, imsak: '03:38', subuh: '03:56', dzuhur: '12:07', ashar: '15:41', berbuka: '17:55', maghrib: '18:25', isya: '19:42'},
+      {day: 'Rabu', date: 10, imsak: '03:36', subuh: '03:54', dzuhur: '12:08', ashar: '15:42', berbuka: '17:56', maghrib: '18:26', isya: '19:43'},
+      {day: 'Kamis', date: 11, imsak: '03:34', subuh: '03:52', dzuhur: '12:09', ashar: '15:43', berbuka: '17:57', maghrib: '18:27', isya: '19:44'},
+      {day: 'Jumat', date: 12, imsak: '03:32', subuh: '03:50', dzuhur: '12:09', ashar: '15:43', berbuka: '17:58', maghrib: '18:28', isya: '19:45'},
+      {day: 'Sabtu', date: 13, imsak: '03:30', subuh: '03:48', dzuhur: '12:10', ashar: '15:44', berbuka: '17:59', maghrib: '18:29', isya: '19:46'},
+      {day: 'Minggu', date: 14, imsak: '03:28', subuh: '03:46', dzuhur: '12:11', ashar: '15:45', berbuka: '18:00', maghrib: '18:30', isya: '19:47'},
+      {day: 'Senin', date: 15, imsak: '03:26', subuh: '03:44', dzuhur: '12:11', ashar: '15:45', berbuka: '18:01', maghrib: '18:31', isya: '19:48'},
+      {day: 'Selasa', date: 16, imsak: '03:24', subuh: '03:42', dzuhur: '12:12', ashar: '15:46', berbuka: '18:02', maghrib: '18:32', isya: '19:49'},
+      {day: 'Rabu', date: 17, imsak: '03:22', subuh: '03:40', dzuhur: '12:13', ashar: '15:47', berbuka: '18:03', maghrib: '18:33', isya: '19:50'},
+      {day: 'Kamis', date: 18, imsak: '03:20', subuh: '03:38', dzuhur: '12:13', ashar: '15:47', berbuka: '18:04', maghrib: '18:34', isya: '19:51'},
+      {day: 'Jumat', date: 19, imsak: '03:18', subuh: '03:36', dzuhur: '12:14', ashar: '15:48', berbuka: '18:05', maghrib: '18:35', isya: '19:52'},
+      {day: 'Sabtu', date: 20, imsak: '03:16', subuh: '03:34', dzuhur: '12:15', ashar: '15:49', berbuka: '18:06', maghrib: '18:36', isya: '19:53'},
+      {day: 'Minggu', date: 21, imsak: '03:14', subuh: '03:32', dzuhur: '12:15', ashar: '15:49', berbuka: '18:07', maghrib: '18:37', isya: '19:54'},
+      {day: 'Senin', date: 22, imsak: '03:12', subuh: '03:30', dzuhur: '12:16', ashar: '15:50', berbuka: '18:08', maghrib: '18:38', isya: '19:55'},
+      {day: 'Selasa', date: 23, imsak: '03:10', subuh: '03:28', dzuhur: '12:17', ashar: '15:51', berbuka: '18:09', maghrib: '18:39', isya: '19:56'},
+      {day: 'Rabu', date: 24, imsak: '03:08', subuh: '03:26', dzuhur: '12:17', ashar: '15:51', berbuka: '18:10', maghrib: '18:40', isya: '19:57'},
+      {day: 'Kamis', date: 25, imsak: '03:06', subuh: '03:24', dzuhur: '12:18', ashar: '15:52', berbuka: '18:11', maghrib: '18:41', isya: '19:58'},
+      {day: 'Jumat', date: 26, imsak: '03:04', subuh: '03:22', dzuhur: '12:19', ashar: '15:53', berbuka: '18:12', maghrib: '18:42', isya: '19:59'},
+      {day: 'Sabtu', date: 27, imsak: '03:02', subuh: '03:20', dzuhur: '12:19', ashar: '15:53', berbuka: '18:13', maghrib: '18:43', isya: '20:00'},
+      {day: 'Minggu', date: 28, imsak: '03:00', subuh: '03:18', dzuhur: '12:20', ashar: '15:54', berbuka: '18:14', maghrib: '18:44', isya: '20:01'},
+      {day: 'Senin', date: 29, imsak: '02:58', subuh: '03:16', dzuhur: '12:21', ashar: '15:55', berbuka: '18:15', maghrib: '18:45', isya: '20:02'},
+      {day: 'Selasa', date: 30, imsak: '02:56', subuh: '03:14', dzuhur: '12:21', ashar: '15:55', berbuka: '18:16', maghrib: '18:46', isya: '20:03'}
+    ]
+  },
+  bali: {
+    city: 'Bali',
+    dates: [
+      {day: 'Senin', date: 1, imsak: '04:06', subuh: '04:24', dzuhur: '12:08', ashar: '15:45', berbuka: '17:55', maghrib: '18:25', isya: '19:42'},
+      {day: 'Selasa', date: 2, imsak: '04:04', subuh: '04:22', dzuhur: '12:09', ashar: '15:46', berbuka: '17:56', maghrib: '18:26', isya: '19:43'},
+      {day: 'Rabu', date: 3, imsak: '04:02', subuh: '04:20', dzuhur: '12:09', ashar: '15:46', berbuka: '17:57', maghrib: '18:27', isya: '19:44'},
+      {day: 'Kamis', date: 4, imsak: '04:00', subuh: '04:18', dzuhur: '12:10', ashar: '15:47', berbuka: '17:58', maghrib: '18:28', isya: '19:45'},
+      {day: 'Jumat', date: 5, imsak: '03:58', subuh: '04:16', dzuhur: '12:11', ashar: '15:48', berbuka: '17:59', maghrib: '18:29', isya: '19:46'},
+      {day: 'Sabtu', date: 6, imsak: '03:56', subuh: '04:14', dzuhur: '12:11', ashar: '15:48', berbuka: '18:00', maghrib: '18:30', isya: '19:47'},
+      {day: 'Minggu', date: 7, imsak: '03:54', subuh: '04:12', dzuhur: '12:12', ashar: '15:49', berbuka: '18:01', maghrib: '18:31', isya: '19:48'},
+      {day: 'Senin', date: 8, imsak: '03:52', subuh: '04:10', dzuhur: '12:13', ashar: '15:50', berbuka: '18:02', maghrib: '18:32', isya: '19:49'},
+      {day: 'Selasa', date: 9, imsak: '03:50', subuh: '04:08', dzuhur: '12:13', ashar: '15:50', berbuka: '18:03', maghrib: '18:33', isya: '19:50'},
+      {day: 'Rabu', date: 10, imsak: '03:48', subuh: '04:06', dzuhur: '12:14', ashar: '15:51', berbuka: '18:04', maghrib: '18:34', isya: '19:51'},
+      {day: 'Kamis', date: 11, imsak: '03:46', subuh: '04:04', dzuhur: '12:15', ashar: '15:52', berbuka: '18:05', maghrib: '18:35', isya: '19:52'},
+      {day: 'Jumat', date: 12, imsak: '03:44', subuh: '04:02', dzuhur: '12:15', ashar: '15:52', berbuka: '18:06', maghrib: '18:36', isya: '19:53'},
+      {day: 'Sabtu', date: 13, imsak: '03:42', subuh: '04:00', dzuhur: '12:16', ashar: '15:53', berbuka: '18:07', maghrib: '18:37', isya: '19:54'},
+      {day: 'Minggu', date: 14, imsak: '03:40', subuh: '03:58', dzuhur: '12:17', ashar: '15:54', berbuka: '18:08', maghrib: '18:38', isya: '19:55'},
+      {day: 'Senin', date: 15, imsak: '03:38', subuh: '03:56', dzuhur: '12:17', ashar: '15:54', berbuka: '18:09', maghrib: '18:39', isya: '19:56'},
+      {day: 'Selasa', date: 16, imsak: '03:36', subuh: '03:54', dzuhur: '12:18', ashar: '15:55', berbuka: '18:10', maghrib: '18:40', isya: '19:57'},
+      {day: 'Rabu', date: 17, imsak: '03:34', subuh: '03:52', dzuhur: '12:19', ashar: '15:56', berbuka: '18:11', maghrib: '18:41', isya: '19:58'},
+      {day: 'Kamis', date: 18, imsak: '03:32', subuh: '03:50', dzuhur: '12:19', ashar: '15:56', berbuka: '18:12', maghrib: '18:42', isya: '19:59'},
+      {day: 'Jumat', date: 19, imsak: '03:30', subuh: '03:48', dzuhur: '12:20', ashar: '15:57', berbuka: '18:13', maghrib: '18:43', isya: '20:00'},
+      {day: 'Sabtu', date: 20, imsak: '03:28', subuh: '03:46', dzuhur: '12:21', ashar: '15:58', berbuka: '18:14', maghrib: '18:44', isya: '20:01'},
+      {day: 'Minggu', date: 21, imsak: '03:26', subuh: '03:44', dzuhur: '12:21', ashar: '15:58', berbuka: '18:15', maghrib: '18:45', isya: '20:02'},
+      {day: 'Senin', date: 22, imsak: '03:24', subuh: '03:42', dzuhur: '12:22', ashar: '15:59', berbuka: '18:16', maghrib: '18:46', isya: '20:03'},
+      {day: 'Selasa', date: 23, imsak: '03:22', subuh: '03:40', dzuhur: '12:23', ashar: '16:00', berbuka: '18:17', maghrib: '18:47', isya: '20:04'},
+      {day: 'Rabu', date: 24, imsak: '03:20', subuh: '03:38', dzuhur: '12:23', ashar: '16:00', berbuka: '18:18', maghrib: '18:48', isya: '20:05'},
+      {day: 'Kamis', date: 25, imsak: '03:18', subuh: '03:36', dzuhur: '12:24', ashar: '16:01', berbuka: '18:19', maghrib: '18:49', isya: '20:06'},
+      {day: 'Jumat', date: 26, imsak: '03:16', subuh: '03:34', dzuhur: '12:25', ashar: '16:02', berbuka: '18:20', maghrib: '18:50', isya: '20:07'},
+      {day: 'Sabtu', date: 27, imsak: '03:14', subuh: '03:32', dzuhur: '12:25', ashar: '16:02', berbuka: '18:21', maghrib: '18:51', isya: '20:08'},
+      {day: 'Minggu', date: 28, imsak: '03:12', subuh: '03:30', dzuhur: '12:26', ashar: '16:03', berbuka: '18:22', maghrib: '18:52', isya: '20:09'},
+      {day: 'Senin', date: 29, imsak: '03:10', subuh: '03:28', dzuhur: '12:27', ashar: '16:04', berbuka: '18:23', maghrib: '18:53', isya: '20:10'},
+      {day: 'Selasa', date: 30, imsak: '03:08', subuh: '03:26', dzuhur: '12:27', ashar: '16:04', berbuka: '18:24', maghrib: '18:54', isya: '20:11'}
+    ]
+  }
+};
+
+// Function to generate schedule table
+function generateScheduleTable(city = 'jakarta') {
+  const scheduleTable = document.getElementById('scheduleTable');
+  if (!scheduleTable || !ramadhanSchedules[city]) {
+    console.error('Schedule table not found or city data missing');
+    return;
+  }
+
+  const schedule = ramadhanSchedules[city].dates;
+  scheduleTable.innerHTML = '';
+
+  schedule.forEach(item => {
+    const row = document.createElement('tr');
+    row.style.borderBottom = '1px solid var(--border-color)';
+    row.style.transition = 'all 0.3s ease';
+    
+    row.innerHTML = `
+      <td style="padding: 1rem; font-weight: 600; color: var(--primary-green);">${item.day}</td>
+      <td style="padding: 1rem; text-align: center; color: var(--text-light);">${item.date} Ramadhan</td>
+      <td style="padding: 1rem; text-align: center; color: #047857; font-weight: 600;">${item.imsak}</td>
+      <td style="padding: 1rem; text-align: center; color: #1e40af; font-weight: 600;">${item.subuh}</td>
+      <td style="padding: 1rem; text-align: center; color: #b45309; font-weight: 600;">${item.dzuhur}</td>
+      <td style="padding: 1rem; text-align: center; color: #c2410c; font-weight: 600;">${item.ashar}</td>
+      <td style="padding: 1rem; text-align: center; color: #dc2626; font-weight: 600;">${item.berbuka}</td>
+      <td style="padding: 1rem; text-align: center; color: #7c2d12; font-weight: 600;">${item.maghrib}</td>
+      <td style="padding: 1rem; text-align: center; color: #7c3aed; font-weight: 600;">${item.isya}</td>
+    `;
+    
+    row.addEventListener('mouseenter', () => {
+      row.style.background = 'var(--primary-cream)';
+    });
+    row.addEventListener('mouseleave', () => {
+      row.style.background = 'white';
+    });
+    
+    scheduleTable.appendChild(row);
+  });
+}
+
+// Function for copy doa
+function copyDoa(button, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    // Show toast notification
+    const toast = document.createElement('div');
+    toast.style.cssText = 'position: fixed; bottom: 2rem; right: 2rem; background: var(--primary-green); color: white; padding: 1rem 1.5rem; border-radius: 8px; z-index: 1000; animation: slideIn 0.3s ease;';
+    toast.textContent = '✓ Doa berhasil disalin!';
+    document.body.appendChild(toast);
+    
+    // Change button styling
+    const originalText = button.innerHTML;
+    button.innerHTML = '<i class="fas fa-check" style="margin-right: 0.5rem;"></i> Tersalin!';
+    button.style.background = '#10b981';
+    
+    setTimeout(() => {
+      button.innerHTML = originalText;
+      button.style.background = 'var(--primary-green)';
+      toast.remove();
+    }, 2000);
+  }).catch(err => {
+    alert('Gagal menyalin: ' + err);
+  });
+}
+
+// Event listener for city selector
+document.addEventListener('DOMContentLoaded', function() {
+  const citySelect = document.getElementById('citySelect');
+  if (citySelect) {
+    // Generate initial schedule
+    generateScheduleTable('jakarta');
+    
+    // Listen for city changes
+    citySelect.addEventListener('change', function() {
+      generateScheduleTable(this.value);
+    });
+  }
+});
       errorState.classList.remove('hidden');
     }
     const tableEl = document.getElementById('table-container');

@@ -1,5 +1,285 @@
-<div id="page-todo" class="page-content hidden">
-  <!-- Header dengan Logo Ramadhan dan Ringkasan Progress -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do Ibadah - Ramadhan Portal</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- HEADER & NAVIGATION -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="navbar-container">
+                <div class="navbar-logo">
+                    <a href="../index.html">
+                        <i class="fas fa-moon"></i> Ramadhan Portal
+                    </a>
+                </div>
+                <div class="menu-toggle" id="menuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li class="nav-item">
+                        <a href="../index.html" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="jadwal.html" class="nav-link">Jadwal Imsakiyah</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="doa.html" class="nav-link">Doa Ramadhan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="todo.html" class="nav-link active">To-Do</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="zakat.html" class="nav-link">Zakat</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="zikir.html" class="nav-link">Zikir</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../index.html#artikel" class="nav-link">Artikel</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <!-- HERO SECTION -->
+        <section style="background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%); color: white; padding: 4rem var(--spacing-md) 3rem; text-align: center;">
+            <div style="max-width: 800px; margin: 0 auto;">
+                <h1 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem;"><i class="fas fa-tasks" style="color: var(--primary-gold); margin-right: 0.5rem;"></i> To-Do Ibadah Ramadhan</h1>
+                <p style="font-size: 1.1rem; color: rgba(255, 255, 255, 0.95);">Pantau dan tingkatkan konsistensi ibadahmu setiap hari</p>
+            </div>
+        </section>
+
+        <!-- PROGRESS SUMMARY -->
+        <section class="fitur">
+            <div class="container">
+                <h2 class="section-title">Ringkasan Progress Harian</h2>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+                    <!-- Shalat Progress -->
+                    <div style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: var(--shadow-light); border-top: 4px solid var(--primary-green);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <p style="font-weight: 700; color: var(--primary-green); font-size: 1rem;">
+                                <i class="fas fa-moon" style="margin-right: 0.5rem;"></i>Shalat Wajib
+                            </p>
+                            <span id="shalat-percent" style="font-size: 1.5rem; font-weight: 800; color: var(--primary-green);">0%</span>
+                        </div>
+                        <div style="background: #d1fae5; border-radius: 8px; height: 8px; overflow: hidden;">
+                            <div id="shalat-bar" style="background: var(--primary-green); height: 100%; width: 0%; transition: width 0.3s ease;"></div>
+                        </div>
+                        <p id="shalat-status" style="color: var(--text-light); font-size: 0.9rem; margin-top: 0.8rem;">Belum optimal</p>
+                    </div>
+
+                    <!-- Quran Progress -->
+                    <div style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: var(--shadow-light); border-top: 4px solid var(--secondary-green);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <p style="font-weight: 700; color: var(--secondary-green); font-size: 1rem;">
+                                <i class="fas fa-book" style="margin-right: 0.5rem;"></i>Baca Qur'an
+                            </p>
+                            <span id="quran-percent" style="font-size: 1.5rem; font-weight: 800; color: var(--secondary-green);">0%</span>
+                        </div>
+                        <div style="background: #d1fae5; border-radius: 8px; height: 8px; overflow: hidden;">
+                            <div id="quran-bar" style="background: var(--secondary-green); height: 100%; width: 0%; transition: width 0.3s ease;"></div>
+                        </div>
+                        <p id="quran-status" style="color: var(--text-light); font-size: 0.9rem; margin-top: 0.8rem;">Masih bisa ditambah</p>
+                    </div>
+
+                    <!-- Puasa Progress -->
+                    <div style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: var(--shadow-light); border-top: 4px solid var(--primary-gold);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <p style="font-weight: 700; color: var(--primary-gold); font-size: 1rem;">
+                                <i class="fas fa-utensils" style="margin-right: 0.5rem;"></i>Puasa
+                            </p>
+                            <span id="puasa-percent" style="font-size: 1.5rem; font-weight: 800; color: var(--primary-gold);">0%</span>
+                        </div>
+                        <div style="background: #fef3c7; border-radius: 8px; height: 8px; overflow: hidden;">
+                            <div id="puasa-bar" style="background: var(--primary-gold); height: 100%; width: 0%; transition: width 0.3s ease;"></div>
+                        </div>
+                        <p id="puasa-status" style="color: var(--text-light); font-size: 0.9rem; margin-top: 0.8rem;">Semangat terus!</p>
+                    </div>
+                </div>
+
+                <!-- Overall Status -->
+                <div style="background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%); color: white; border-radius: 12px; padding: 2rem; text-align: center;">
+                    <p style="font-size: 0.9rem; margin-bottom: 0.5rem; opacity: 0.9;">Status Ibadah Harimu</p>
+                    <p id="overall-status" style="font-size: 2rem; font-weight: 800;">💪 Mulai Kuat!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CHECKLIST SECTION -->
+        <section style="background: #f9fafb; padding: 4rem var(--spacing-md);">
+            <div class="container">
+                <h2 class="section-title">Daftar Ibadah Harian</h2>
+                
+                <div class="features-grid">
+                    <!-- SHALAT WAJIB -->
+                    <div style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: var(--shadow-light); border-left: 4px solid #3b82f6;">
+                        <h3 style="font-size: 1.3rem; color: #3b82f6; font-weight: 700; margin-bottom: 1rem;">
+                            <i class="fas fa-moon" style="margin-right: 0.5rem;"></i>Shalat Wajib</h3>
+                        <label style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; cursor: pointer; margin-bottom: 0.5rem;">
+                            <input type="checkbox" onchange="updateProgress()" style="width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+                            <span style="margin-left: 0.75rem; font-weight: 600;">Subuh 🌙</span>
+                        </label>
+                        <label style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; cursor: pointer; margin-bottom: 0.5rem;">
+                            <input type="checkbox" onchange="updateProgress()" style="width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+                            <span style="margin-left: 0.75rem; font-weight: 600;">Dzuhur ☀️</span>
+                        </label>
+                        <label style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; cursor: pointer; margin-bottom: 0.5rem;">
+                            <input type="checkbox" onchange="updateProgress()" style="width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+                            <span style="margin-left: 0.75rem; font-weight: 600;">Ashar 🌤️</span>
+                        </label>
+                        <label style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; cursor: pointer; margin-bottom: 0.5rem;">
+                            <input type="checkbox" onchange="updateProgress()" style="width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+                            <span style="margin-left: 0.75rem; font-weight: 600;">Maghrib 🌅</span>
+                        </label>
+                        <label style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; cursor: pointer;">
+                            <input type="checkbox" onchange="updateProgress()" style="width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+                            <span style="margin-left: 0.75rem; font-weight: 600;">Isya 🌙</span>
+                        </label>
+                    </div>
+
+                    <!-- QUR'AN & ZIKIR -->
+                    <div style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: var(--shadow-light); border-left: 4px solid #10b981;">
+                        <h3 style="font-size: 1.3rem; color: #10b981; font-weight: 700; margin-bottom: 1rem;">
+                            <i class="fas fa-book" style="margin-right: 0.5rem;"></i>Qur'an & Zikir</h3>
+                        <label style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; cursor: pointer; margin-bottom: 0.5rem;">
+                            <input type="checkbox" onchange="updateProgress()" style="width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+                            <span style="margin-left: 0.75rem; font-weight: 600;">Baca Qur'an 📖</span>
+                        </label>
+                        <label style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; cursor: pointer; margin-bottom: 0.5rem;">
+                            <input type="checkbox" onchange="updateProgress()" style="width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+                            <span style="margin-left: 0.75rem; font-weight: 600;">Zikir Pagi 🌅</span>
+                        </label>
+                        <label style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; cursor: pointer; margin-bottom: 0.5rem;">
+                            <input type="checkbox" onchange="updateProgress()" style="width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+                            <span style="margin-left: 0.75rem; font-weight: 600;">Zikir Malam 🌙</span>
+                        </label>
+                        <label style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; cursor: pointer;">
+                            <input type="checkbox" onchange="updateProgress()" style="width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+                            <span style="margin-left: 0.75rem; font-weight: 600;">Tarawih/Qiamullail 🕌</span>
+                        </label>
+                    </div>
+
+                    <!-- PUASA & DISIPLIN DIRI -->
+                    <div style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: var(--shadow-light); border-left: 4px solid #f59e0b;">
+                        <h3 style="font-size: 1.3rem; color: #f59e0b; font-weight: 700; margin-bottom: 1rem;">
+                            <i class="fas fa-utensils" style="margin-right: 0.5rem;"></i>Puasa & Disiplin</h3>
+                        <label style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; cursor: pointer; margin-bottom: 0.5rem;">
+                            <input type="checkbox" onchange="updateProgress()" style="width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+                            <span style="margin-left: 0.75rem; font-weight: 600;">Puasa Penuh 🤲</span>
+                        </label>
+                        <label style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; cursor: pointer; margin-bottom: 0.5rem;">
+                            <input type="checkbox" onchange="updateProgress()" style="width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+                            <span style="margin-left: 0.75rem; font-weight: 600;">Hindari Ghibah 🤐</span>
+                        </label>
+                        <label style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; cursor: pointer; margin-bottom: 0.5rem;">
+                            <input type="checkbox" onchange="updateProgress()" style="width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+                            <span style="margin-left: 0.75rem; font-weight: 600;">Berbuat Baik 💝</span>
+                        </label>
+                        <label style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; cursor: pointer;">
+                            <input type="checkbox" onchange="updateProgress()" style="width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+                            <span style="margin-left: 0.75rem; font-weight: 600;">Bantu Sesama 🤝</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Reset Button -->
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button onclick="resetProgress()" style="background: #ef4444; color: white; padding: 0.75rem 2rem; border-radius: 8px; border: none; font-weight: 600; font-size: 1rem; cursor: pointer;">
+                        Reset Hari Ini
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Ramadhan Portal</h4>
+                    <p>Pusat panduan lengkap ibadah dan doa selama bulan Ramadhan untuk semua umat Muslim.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Menu Navigasi</h4>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="jadwal.html">Jadwal & Doa</a></li>
+                        <li><a href="todo.html">To-Do</a></li>
+                        <li><a href="zakat.html">Zakat</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Hubungi Kami</h4>
+                    <p>Email: info@ramadhanportal.com</p>
+                    <p>Phone: +62 812 3456 7890</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ramadhan Portal. Semua hak dilindungi. Dibuat dengan <i class="fas fa-heart"></i> untuk umat Muslim.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script>
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            let totalChecked = 0;
+            checkboxes.forEach(cb => { if (cb.checked) totalChecked++; });
+            
+            const shalatCheckboxes = Array.from(checkboxes).slice(0, 5);
+            const shalatChecked = shalatCheckboxes.filter(cb => cb.checked).length;
+            const shalatPercent = Math.round((shalatChecked / 5) * 100);
+            document.getElementById('shalat-bar').style.width = shalatPercent + '%';
+            document.getElementById('shalat-percent').textContent = shalatPercent + '%';
+            document.getElementById('shalat-status').textContent = shalatPercent >= 80 ? '✓ Sempurna!' : shalatPercent >= 50 ? 'Terus berjuang!' : 'Belum optimal';
+
+            const quranCheckboxes = Array.from(checkboxes).slice(5, 9);
+            const quranChecked = quranCheckboxes.filter(cb => cb.checked).length;
+            const quranPercent = Math.round((quranChecked / 4) * 100);
+            document.getElementById('quran-bar').style.width = quranPercent + '%';
+            document.getElementById('quran-percent').textContent = quranPercent + '%';
+            document.getElementById('quran-status').textContent = quranPercent >= 75 ? '✓ Luar biasa!' : quranPercent >= 50 ? 'Bagus!' : 'Masih bisa ditambah';
+
+            const puasaCheckboxes = Array.from(checkboxes).slice(9);
+            const puasaChecked = puasaCheckboxes.filter(cb => cb.checked).length;
+            const puasaPercent = Math.round((puasaChecked / 4) * 100);
+            document.getElementById('puasa-bar').style.width = puasaPercent + '%';
+            document.getElementById('puasa-percent').textContent = puasaPercent + '%';
+            document.getElementById('puasa-status').textContent = puasaPercent >= 75 ? '✓ Sempurna!' : puasaPercent >= 50 ? 'Baik!' : 'Semangat terus!';
+
+            const totalPercent = Math.round((totalChecked / checkboxes.length) * 100);
+            let statusText = '';
+            if (totalPercent >= 80) statusText = '🌟 Alhamdulillah Sempurna!';
+            else if (totalPercent >= 60) statusText = '💪 Terus Berjuang!';
+            else if (totalPercent >= 30) statusText = '🙏 Mulai Kuat!';
+            else statusText = '🌱 Dimulai dari Sini!';
+            
+            document.getElementById('overall-status').textContent = statusText;
+        }
+
+        function resetProgress() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(cb => cb.checked = false);
+            updateProgress();
+        }
+
+        document.addEventListener('DOMContentLoaded', updateProgress);
+    </script>
+</body>
+</html>
   <div class="mb-12">
     <div class="gradient-header text-white rounded-2xl shadow-2xl p-8 mb-6">
       <div class="text-center mb-8">

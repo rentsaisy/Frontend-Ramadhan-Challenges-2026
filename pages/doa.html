@@ -1,106 +1,238 @@
-<!-- PAGE: DOA RAMADHAN -->
-<div id="page-doa" class="page-content">
-  <!-- Tab Navigation -->
-  <div class="flex justify-center mb-12 gap-4 flex-wrap">
-    <button onclick="showCategory('semua')" class="tab-btn active px-6 py-3 rounded-full font-semibold transition-all bg-emerald-500 text-white" id="tab-semua"><i class="fas fa-star mr-2"></i>Semua Doa</button>
-    <button onclick="showCategory('sahur')" class="tab-btn px-6 py-3 rounded-full font-semibold transition-all bg-white text-gray-700 border border-gray-300" id="tab-sahur"><i class="fas fa-sunrise mr-2"></i>Doa Sahur</button>
-    <button onclick="showCategory('buka')" class="tab-btn px-6 py-3 rounded-full font-semibold transition-all bg-white text-gray-700 border border-gray-300" id="tab-buka"><i class="fas fa-utensils mr-2"></i>Doa Buka</button>
-  </div>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doa-Doa Ramadhan - Ramadhan Portal</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- HEADER & NAVIGATION -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="navbar-container">
+                <div class="navbar-logo">
+                    <a href="../index.html">
+                        <i class="fas fa-moon"></i> Ramadhan Portal
+                    </a>
+                </div>
+                <div class="menu-toggle" id="menuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li class="nav-item">
+                        <a href="../index.html" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="jadwal.html" class="nav-link">Jadwal Imsakiyah</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="doa.html" class="nav-link active">Doa Ramadhan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="todo.html" class="nav-link">To-Do</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="zakat.html" class="nav-link">Zakat</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="zikir.html" class="nav-link">Zikir</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../index.html#artikel" class="nav-link">Artikel</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
 
-  <!-- Duas Grid -->
-  <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-2">
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <!-- HERO SECTION -->
+        <section style="background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%); color: white; padding: 4rem var(--spacing-md) 3rem; text-align: center;">
+            <div style="max-width: 800px; margin: 0 auto;">
+                <h1 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem;"><i class="fas fa-hands-praying" style="color: var(--primary-gold); margin-right: 0.5rem;"></i> Doa-Doa Ramadhan</h1>
+                <p style="font-size: 1.1rem; color: rgba(255, 255, 255, 0.95);">Kumpulan doa harian dan doa sahur & buka puasa yang mulia</p>
+            </div>
+        </section>
 
-    <!-- Doa 1: Sahur -->
-    <div class="card bg-white rounded-3xl shadow-lg card-hover overflow-hidden category-sahur category-semua">
-      <div class="bg-gradient-to-r from-yellow-400 to-amber-400 h-2"></div>
-      <div class="p-8">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="badge-sahur text-white px-4 py-2 rounded-full text-xs font-bold"><i class="fas fa-sunrise mr-1"></i>SAHUR</span>
-          <span class="text-gray-500 text-sm">Niat Puasa</span>
-        </div>
-        <div class="mb-6">
-          <p class="dua-text text-right mb-6 p-4 bg-emerald-50 rounded-xl border-l-4 border-emerald-500">نَوَيْتُ صَوْمَ غَدٍ عَنْ أَدَاءِ فَرْضِ شَهْرِ رَمَضَانَ هَذِهِ السَّنَةِ لِلّٰهِ تَعَالَى</p>
-          <div class="bg-gradient-to-br from-emerald-50 to-teal-50 p-5 rounded-xl border border-emerald-200">
-            <p class="text-gray-700 leading-relaxed"><strong class="text-emerald-700">Artinya:</strong> Aku berniat berpuasa esok hari untuk menunaikan kewajiban bulan Ramadhan tahun ini karena Allah Ta'ala.</p>
-          </div>
-        </div>
-        <button onclick="copyToClipboard(this, 'نَوَيْتُ صَوْمَ غَدٍ عَنْ أَدَاءِ فَرْضِ شَهْرِ رَمَضَانَ هَذِهِ السَّنَةِ لِلّٰهِ تَعَالَى')" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white py-2 rounded-lg transition-all font-semibold"><i class="fas fa-copy mr-2"></i>Salin Doa</button>
-      </div>
-    </div>
+        <!-- DOA SECTION -->
+        <section style="background: white;">
+            <div class="container">
+                <h2 class="section-title">Doa-Doa Istimewa untuk Ramadhan</h2>
 
-    <!-- Doa 2: Buka Puasa -->
-    <div class="card bg-white rounded-3xl shadow-lg card-hover overflow-hidden category-buka category-semua">
-      <div class="bg-gradient-to-r from-green-500 to-emerald-500 h-2"></div>
-      <div class="p-8">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="badge-buka text-white px-4 py-2 rounded-full text-xs font-bold"><i class="fas fa-utensils mr-1"></i>BUKA PUASA</span>
-          <span class="text-gray-500 text-sm">Berbuka Puasa</span>
-        </div>
-        <div class="mb-6">
-          <p class="dua-text text-right mb-6 p-4 bg-emerald-50 rounded-xl border-l-4 border-green-500">اللَّهُمَّ لَكَ صُمْتُ وَبِكَ آمَنْتُ وَعَلَيْكَ تَوَكَّلْتُ وَعَلَى رِزْقِكَ أَفْطَرْتُ</p>
-          <div class="bg-gradient-to-br from-emerald-50 to-teal-50 p-5 rounded-xl border border-emerald-200">
-            <p class="text-gray-700 leading-relaxed"><strong class="text-emerald-700">Artinya:</strong> Ya Allah, untuk-Mu aku berpuasa, kepada-Mu aku beriman, kepada-Mu aku bertawakal, dan dengan rezeki-Mu aku berbuka puasa.</p>
-          </div>
-        </div>
-        <button onclick="copyToClipboard(this, 'اللَّهُمَّ لَكَ صُمْتُ وَبِكَ آمَنْتُ وَعَلَيْكَ تَوَكَّلْتُ وَعَلَى رِزْقِكَ أَفْطَرْتُ')" class="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg transition-all font-semibold"><i class="fas fa-copy mr-2"></i>Salin Doa</button>
-      </div>
-    </div>
+                <!-- DOA HARIAN SECTION -->
+                <div style="margin-bottom: 4rem;">
+                    <h3 style="font-size: 1.5rem; color: var(--primary-green); font-weight: 700; margin-bottom: 1.5rem; border-bottom: 3px solid var(--primary-gold); padding-bottom: 1rem;">
+                        <i class="fas fa-hands-praying" style="margin-right: 0.5rem;"></i> Doa Harian
+                    </h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                        <!-- DOA 1 -->
+                        <div style="background: var(--primary-cream); border-radius: 12px; padding: 1.5rem; border-left: 4px solid var(--primary-green);">
+                            <h4 style="color: var(--primary-green); font-weight: 700; margin-bottom: 0.5rem;">Doa Niat Puasa</h4>
+                            <div style="background: white; padding: 1rem; border-radius: 8px; margin: 1rem 0; font-size: 1rem; font-weight: 600; text-align: right;">نويت أن أصوم غدا من شهر رمضان</div>
+                            <p style="color: var(--text-light); font-size: 0.9rem;"><strong>Arti:</strong> Saya niatkan untuk berpuasa di hari esok dari bulan Ramadhan</p>
+                            <button onclick="copyDoa(this, 'نويت أن أصوم غدا من شهر رمضان')" style="background: var(--primary-green); color: white; padding: 0.6rem 1.2rem; border-radius: 6px; border: none; font-weight: 600; cursor: pointer; font-size: 0.9rem; width: 100%; margin-top: 1rem;">
+                                <i class="fas fa-copy" style="margin-right: 0.5rem;"></i> Salin
+                            </button>
+                        </div>
 
-    <!-- Doa 3: Lailatul Qadr -->
-    <div class="card bg-white rounded-3xl shadow-lg card-hover overflow-hidden category-sahur category-semua">
-      <div class="bg-gradient-to-r from-purple-400 to-pink-400 h-2"></div>
-      <div class="p-8">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-full text-xs font-bold"><i class="fas fa-gem mr-1"></i>MALAM 10 HARI AKHIR</span>
-          <span class="text-gray-500 text-sm">Lailatul Qadr</span>
-        </div>
-        <div class="mb-6">
-          <p class="dua-text text-right mb-6 p-4 bg-purple-50 rounded-xl border-l-4 border-purple-500">اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي</p>
-          <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-5 rounded-xl border border-purple-200">
-            <p class="text-gray-700 leading-relaxed"><strong class="text-purple-700">Artinya:</strong> Ya Allah, sesungguhnya Engkau Maha Pemaaf, menyukai pemaafan, maka maafkanlah aku.</p>
-          </div>
-        </div>
-        <button onclick="copyToClipboard(this, 'اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي')" class="w-full bg-purple-500 hover:bg-purple-600 text-white py-2 rounded-lg transition-all font-semibold"><i class="fas fa-copy mr-2"></i>Salin Doa</button>
-      </div>
-    </div>
+                        <!-- DOA 2 -->
+                        <div style="background: var(--primary-cream); border-radius: 12px; padding: 1.5rem; border-left: 4px solid var(--secondary-green);">
+                            <h4 style="color: var(--secondary-green); font-weight: 700; margin-bottom: 0.5rem;">Doa Istighfar</h4>
+                            <div style="background: white; padding: 1rem; border-radius: 8px; margin: 1rem 0; font-size: 0.95rem; font-weight: 600; text-align: right;">أستغفر الله العظيم الذي لا إله إلا هو</div>
+                            <p style="color: var(--text-light); font-size: 0.9rem;"><strong>Arti:</strong> Aku memohon ampun kepada Allah Yang Agung yang tiada Tuhan melainkan Dia</p>
+                            <button onclick="copyDoa(this, 'أستغفر الله العظيم الذي لا إله إلا هو')" style="background: var(--primary-green); color: white; padding: 0.6rem 1.2rem; border-radius: 6px; border: none; font-weight: 600; cursor: pointer; font-size: 0.9rem; width: 100%; margin-top: 1rem;">
+                                <i class="fas fa-copy" style="margin-right: 0.5rem;"></i> Salin
+                            </button>
+                        </div>
 
-    <!-- Doa 4: Tawbah -->
-    <div class="card bg-white rounded-3xl shadow-lg card-hover overflow-hidden category-buka category-semua">
-      <div class="bg-gradient-to-r from-blue-400 to-cyan-400 h-2"></div>
-      <div class="p-8">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-4 py-2 rounded-full text-xs font-bold"><i class="fas fa-hands-praying mr-1"></i>TAUBAT</span>
-          <span class="text-gray-500 text-sm">Astagfirullah</span>
-        </div>
-        <div class="mb-6">
-          <p class="dua-text text-right mb-6 p-4 bg-blue-50 rounded-xl border-l-4 border-blue-500">أَسْتَغْفِرُ اللَّهَ الَّذِي لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ وَأَتُوبُ إِلَيْهِ</p>
-          <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-5 rounded-xl border border-blue-200">
-            <p class="text-gray-700 leading-relaxed"><strong class="text-blue-700">Artinya:</strong> Aku memohon ampun kepada Allah, tidak ada ilah selain Dia, Yang Hidup, Yang Berdiri Sendiri, dan aku bertobat kepada-Nya.</p>
-          </div>
-        </div>
-        <button onclick="copyToClipboard(this, 'أَسْتَغْفِرُ اللَّهَ الَّذِي لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ وَأَتُوبُ إِلَيْهِ')" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition-all font-semibold"><i class="fas fa-copy mr-2"></i>Salin Doa</button>
-      </div>
-    </div>
-  </div>
+                        <!-- DOA 3 -->
+                        <div style="background: var(--primary-cream); border-radius: 12px; padding: 1.5rem; border-left: 4px solid #388e3c;">
+                            <h4 style="color: #388e3c; font-weight: 700; margin-bottom: 0.5rem;">Doa Untuk Keluarga</h4>
+                            <div style="background: white; padding: 1rem; border-radius: 8px; margin: 1rem 0; font-size: 0.95rem; font-weight: 600; text-align: right;">اللهم احفظ أهلي واحرسهم من كل شر</div>
+                            <p style="color: var(--text-light); font-size: 0.9rem;"><strong>Arti:</strong> Ya Allah, jagalah keluargaku dan lindungi mereka dari segala keburukan</p>
+                            <button onclick="copyDoa(this, 'اللهم احفظ أهلي واحرسهم من كل شر')" style="background: var(--primary-green); color: white; padding: 0.6rem 1.2rem; border-radius: 6px; border: none; font-weight: 600; cursor: pointer; font-size: 0.9rem; width: 100%; margin-top: 1rem;">
+                                <i class="fas fa-copy" style="margin-right: 0.5rem;"></i> Salin
+                            </button>
+                        </div>
 
-  <!-- Info Box -->
-  <div class="mt-16 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-3xl p-8 text-white shadow-xl">
-    <div class="grid md:grid-cols-3 gap-8">
-      <div class="text-center">
-        <i class="fas fa-quran text-4xl mb-3 text-yellow-300"></i>
-        <p class="font-semibold mb-1">30 Juz</p>
-        <p class="text-emerald-100 text-sm">Khatam Al-Qur'an sepanjang Ramadhan</p>
-      </div>
-      <div class="text-center">
-        <i class="fas fa-praying-hands text-4xl mb-3 text-yellow-300"></i>
-        <p class="font-semibold mb-1">Niat Kuat</p>
-        <p class="text-emerald-100 text-sm">Mulai dengan niat yang ikhlas untuk Allah</p>
-      </div>
-      <div class="text-center">
-        <i class="fas fa-heart text-4xl mb-3 text-yellow-300"></i>
-        <p class="font-semibold mb-1">Istiqomah</p>
-        <p class="text-emerald-100 text-sm">Tetap konsisten dalam ibadah hingga akhir bulan</p>
-      </div>
-    </div>
-  </div>
-</div>
+                        <!-- DOA 4 -->
+                        <div style="background: var(--primary-cream); border-radius: 12px; padding: 1.5rem; border-left: 4px solid #43a047;">
+                            <h4 style="color: #43a047; font-weight: 700; margin-bottom: 0.5rem;">Doa Kesehatan</h4>
+                            <div style="background: white; padding: 1rem; border-radius: 8px; margin: 1rem 0; font-size: 0.95rem; font-weight: 600; text-align: right;">اللهم إني أسألك العفو والعافية</div>
+                            <p style="color: var(--text-light); font-size: 0.9rem;"><strong>Arti:</strong> Ya Allah, aku memohon kesehatan dan kesejahteraan dari-Mu</p>
+                            <button onclick="copyDoa(this, 'اللهم إني أسألك العفو والعافية')" style="background: var(--primary-green); color: white; padding: 0.6rem 1.2rem; border-radius: 6px; border: none; font-weight: 600; cursor: pointer; font-size: 0.9rem; width: 100%; margin-top: 1rem;">
+                                <i class="fas fa-copy" style="margin-right: 0.5rem;"></i> Salin
+                            </button>
+                        </div>
+
+                        <!-- DOA 5 -->
+                        <div style="background: var(--primary-cream); border-radius: 12px; padding: 1.5rem; border-left: 4px solid #2e7d32;">
+                            <h4 style="color: #2e7d32; font-weight: 700; margin-bottom: 0.5rem;">Doa Lailat Al-Qadr</h4>
+                            <div style="background: white; padding: 1rem; border-radius: 8px; margin: 1rem 0; font-size: 0.95rem; font-weight: 600; text-align: right;">اللهم إنك عفو تحب العفو فاعف عني</div>
+                            <p style="color: var(--text-light); font-size: 0.9rem;"><strong>Arti:</strong> Ya Allah, sesungguhnya Engkau Maha Pemaaf dan menyukai pemaafan, maka maafkanlah aku</p>
+                            <button onclick="copyDoa(this, 'اللهم إنك عفو تحب العفو فاعف عني')" style="background: var(--primary-green); color: white; padding: 0.6rem 1.2rem; border-radius: 6px; border: none; font-weight: 600; cursor: pointer; font-size: 0.9rem; width: 100%; margin-top: 1rem;">
+                                <i class="fas fa-copy" style="margin-right: 0.5rem;"></i> Salin
+                            </button>
+                        </div>
+
+                        <!-- DOA 6 -->
+                        <div style="background: var(--primary-cream); border-radius: 12px; padding: 1.5rem; border-left: 4px solid #1b5e20;">
+                            <h4 style="color: #1b5e20; font-weight: 700; margin-bottom: 0.5rem;">Doa Berbuka Puasa</h4>
+                            <div style="background: white; padding: 1rem; border-radius: 8px; margin: 1rem 0; font-size: 0.9rem; font-weight: 600; text-align: right;">اللهم لك صمت وبك آمنت وعليك توكلت</div>
+                            <p style="color: var(--text-light); font-size: 0.9rem;"><strong>Arti:</strong> Ya Allah, untuk-Mu aku berpuasa, kepada-Mu aku beriman, kepada-Mu aku bertawakal</p>
+                            <button onclick="copyDoa(this, 'اللهم لك صمت وبك آمنت وعليك توكلت')" style="background: var(--primary-green); color: white; padding: 0.6rem 1.2rem; border-radius: 6px; border: none; font-weight: 600; cursor: pointer; font-size: 0.9rem; width: 100%; margin-top: 1rem;">
+                                <i class="fas fa-copy" style="margin-right: 0.5rem;"></i> Salin
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SAHUR & BUKA SECTION -->
+                <div style="border-top: 2px solid var(--border-color); padding-top: 3rem;">
+                    <h3 style="font-size: 1.5rem; color: var(--primary-green); font-weight: 700; margin-bottom: 1.5rem; border-bottom: 3px solid var(--primary-gold); padding-bottom: 1rem;">
+                        <i class="fas fa-moon-stars" style="margin-right: 0.5rem;"></i> Doa Sahur & Buka Puasa
+                    </h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                        <!-- SAHUR 1 -->
+                        <div style="background: #fef5e7; border-radius: 12px; padding: 1.5rem; border-left: 4px solid #f59e0b;">
+                            <h4 style="color: #f59e0b; font-weight: 700; margin-bottom: 0.5rem;">🌅 Niat Sahur</h4>
+                            <div style="background: white; padding: 1rem; border-radius: 8px; margin: 1rem 0; font-size: 1rem; font-weight: 600; text-align: right;">نويت قيام ليلة رمضان لله تعالى</div>
+                            <p style="color: var(--text-light); font-size: 0.9rem;"><strong>Arti:</strong> Saya niatkan untuk berdiri (beribadah) malam Ramadhan karena Allah Ta'ala</p>
+                            <button onclick="copyDoa(this, 'نويت قيام ليلة رمضان لله تعالى')" style="background: #f59e0b; color: white; padding: 0.6rem 1.2rem; border-radius: 6px; border: none; font-weight: 600; cursor: pointer; font-size: 0.9rem; width: 100%; margin-top: 1rem;">
+                                <i class="fas fa-copy" style="margin-right: 0.5rem;"></i> Salin
+                            </button>
+                        </div>
+
+                        <!-- SAHUR 2 -->
+                        <div style="background: #fef5e7; border-radius: 12px; padding: 1.5rem; border-left: 4px solid #f59e0b;">
+                            <h4 style="color: #f59e0b; font-weight: 700; margin-bottom: 0.5rem;">🍽️ Doa Saat Makan Sahur</h4>
+                            <div style="background: white; padding: 1rem; border-radius: 8px; margin: 1rem 0; font-size: 1rem; font-weight: 600; text-align: right;">بسم الله الرحمن الرحيم</div>
+                            <p style="color: var(--text-light); font-size: 0.9rem;"><strong>Arti:</strong> Dengan nama Allah yang Maha Pengasih lagi Maha Penyayang</p>
+                            <button onclick="copyDoa(this, 'بسم الله الرحمن الرحيم')" style="background: #f59e0b; color: white; padding: 0.6rem 1.2rem; border-radius: 6px; border: none; font-weight: 600; cursor: pointer; font-size: 0.9rem; width: 100%; margin-top: 1rem;">
+                                <i class="fas fa-copy" style="margin-right: 0.5rem;"></i> Salin
+                            </button>
+                        </div>
+
+                        <!-- BUKA 1 -->
+                        <div style="background: #dbeafe; border-radius: 12px; padding: 1.5rem; border-left: 4px solid #10b981;">
+                            <h4 style="color: #10b981; font-weight: 700; margin-bottom: 0.5rem;">🌙 Doa Utama Berbuka</h4>
+                            <div style="background: white; padding: 1rem; border-radius: 8px; margin: 1rem 0; font-size: 0.95rem; font-weight: 600; text-align: right;">اللهم لك صمت وبك آمنت وعليك توكلت</div>
+                            <p style="color: var(--text-light); font-size: 0.9rem;"><strong>Arti:</strong> Ya Allah, untuk-Mu aku berpuasa, kepada-Mu aku beriman, kepada-Mu aku bertawakal</p>
+                            <button onclick="copyDoa(this, 'اللهم لك صمت وبك آمنت وعليك توكلت')" style="background: #10b981; color: white; padding: 0.6rem 1.2rem; border-radius: 6px; border: none; font-weight: 600; cursor: pointer; font-size: 0.9rem; width: 100%; margin-top: 1rem;">
+                                <i class="fas fa-copy" style="margin-right: 0.5rem;"></i> Salin
+                            </button>
+                        </div>
+
+                        <!-- BUKA 2 -->
+                        <div style="background: #dbeafe; border-radius: 12px; padding: 1.5rem; border-left: 4px solid #10b981;">
+                            <h4 style="color: #10b981; font-weight: 700; margin-bottom: 0.5rem;">🍴 Doa Sebelum Makan</h4>
+                            <div style="background: white; padding: 1rem; border-radius: 8px; margin: 1rem 0; font-size: 1rem; font-weight: 600; text-align: right;">بسم الله الرحمن الرحيم</div>
+                            <p style="color: var(--text-light); font-size: 0.9rem;"><strong>Arti:</strong> Dengan nama Allah yang Maha Pengasih lagi Maha Penyayang</p>
+                            <button onclick="copyDoa(this, 'بسم الله الرحمن الرحيم')" style="background: #10b981; color: white; padding: 0.6rem 1.2rem; border-radius: 6px; border: none; font-weight: 600; cursor: pointer; font-size: 0.9rem; width: 100%; margin-top: 1rem;">
+                                <i class="fas fa-copy" style="margin-right: 0.5rem;"></i> Salin
+                            </button>
+                        </div>
+
+                        <!-- BUKA 3 -->
+                        <div style="background: #dbeafe; border-radius: 12px; padding: 1.5rem; border-left: 4px solid #10b981;">
+                            <h4 style="color: #10b981; font-weight: 700; margin-bottom: 0.5rem;">✋ Doa Setelah Makan</h4>
+                            <div style="background: white; padding: 1rem; border-radius: 8px; margin: 1rem 0; font-size: 0.9rem; font-weight: 600; text-align: right;">الحمد لله الذي أطعمنا وسقانا</div>
+                            <p style="color: var(--text-light); font-size: 0.9rem;"><strong>Arti:</strong> Segala puji bagi Allah yang telah memberi kami makan dan minum</p>
+                            <button onclick="copyDoa(this, 'الحمد لله الذي أطعمنا وسقانا')" style="background: #10b981; color: white; padding: 0.6rem 1.2rem; border-radius: 6px; border: none; font-weight: 600; cursor: pointer; font-size: 0.9rem; width: 100%; margin-top: 1rem;">
+                                <i class="fas fa-copy" style="margin-right: 0.5rem;"></i> Salin
+                            </button>
+                        </div>
+
+                        <!-- SAHUR 3 -->
+                        <div style="background: #fef5e7; border-radius: 12px; padding: 1.5rem; border-left: 4px solid #f59e0b;">
+                            <h4 style="color: #f59e0b; font-weight: 700; margin-bottom: 0.5rem;">🤲 Doa Sebelum Imsak</h4>
+                            <div style="background: white; padding: 1rem; border-radius: 8px; margin: 1rem 0; font-size: 0.95rem; font-weight: 600; text-align: right;">اللهم تقبل صيامي وقيامي</div>
+                            <p style="color: var(--text-light); font-size: 0.9rem;"><strong>Arti:</strong> Ya Allah, terimalah puasaku dan berdiriku (beribadah) malam ini</p>
+                            <button onclick="copyDoa(this, 'اللهم تقبل صيامي وقيامي')" style="background: #f59e0b; color: white; padding: 0.6rem 1.2rem; border-radius: 6px; border: none; font-weight: 600; cursor: pointer; font-size: 0.9rem; width: 100%; margin-top: 1rem;">
+                                <i class="fas fa-copy" style="margin-right: 0.5rem;"></i> Salin
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Ramadhan Portal</h4>
+                    <p>Pusat panduan lengkap ibadah dan doa selama bulan Ramadhan untuk semua umat Muslim.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Menu Navigasi</h4>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="jadwal.html">Jadwal Imsakiyah</a></li>
+                        <li><a href="doa.html">Doa Ramadhan</a></li>
+                        <li><a href="todo.html">To-Do</a></li>
+                        <li><a href="zakat.html">Zakat</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Hubungi Kami</h4>
+                    <p>Email: info@ramadhanportal.com</p>
+                    <p>Phone: +62 812 3456 7890</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ramadhan Portal. Semua hak dilindungi. Dibuat dengan <i class="fas fa-heart"></i> untuk umat Muslim.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/script.js"></script>
+</body>
+</html>
